@@ -1,13 +1,16 @@
-﻿namespace Mfm.Domain.ValueObjects;
+﻿using Mfm.Domain.Entities.Rules;
+using Mfm.Domain.Exceptions;
+
+namespace Mfm.Domain.Entities.ValueObjects;
 public sealed class LicensePlate : IEquatable<LicensePlate>
 {
     public string Value { get; init; }
 
     public LicensePlate(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) || value.Length != 7)
+        if (string.IsNullOrWhiteSpace(value) || value.Length != MotorcycleRules.LicensePlateMaxLength)
         {
-            throw new ArgumentException("License plate must be exactly 7 characters.", nameof(value));
+            throw new ValidationException();
         }
 
         Value = value;

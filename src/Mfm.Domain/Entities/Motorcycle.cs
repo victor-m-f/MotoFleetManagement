@@ -1,21 +1,25 @@
-﻿using Mfm.Domain.ValueObjects;
+﻿using Mfm.Domain.Entities.Base;
+using Mfm.Domain.Entities.Rules;
+using Mfm.Domain.Entities.ValueObjects;
+using Mfm.Domain.Exceptions;
 
 namespace Mfm.Domain.Entities;
 public sealed class Motorcycle : AggregateRoot
 {
-    public Guid Id { get; private set; }
-    public int Year { get; private set; }
-    public string Model { get; private set; } = string.Empty;
+    public string Id { get; } = string.Empty;
+    public int Year { get; }
+    public string Model { get; } = string.Empty;
     public LicensePlate LicensePlate { get; private set; } = default!;
 
-    public Motorcycle(LicensePlate licensePlate, int year, string model)
+    public Motorcycle(string id, LicensePlate licensePlate, int year, string model)
     {
-        if (year < 1900 || year > DateTime.Now.Year)
+        if (year < MotorcycleRules.MinYear || year > DateTime.Now.Year)
         {
-            throw new ArgumentOutOfRangeException(nameof(year), "Year must be valid.");
+            throw new ValidationException();
         }
 
-        LicensePlate = licensePlate ?? throw new ArgumentNullException(nameof(licensePlate));
+        Id = id;
+        LicensePlate = licensePlate ?? throw new ValidationException();
         Year = year;
         Model = model;
     }
@@ -25,6 +29,6 @@ public sealed class Motorcycle : AggregateRoot
 
     public void UpdateLicensePlate(LicensePlate newPlate)
     {
-        LicensePlate = newPlate ?? throw new ArgumentNullException(nameof(newPlate));
+        LicensePlate = newPlate ?? throw new ValidationException();
     }
 }

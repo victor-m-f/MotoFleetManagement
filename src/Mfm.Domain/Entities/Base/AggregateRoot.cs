@@ -1,6 +1,6 @@
-﻿using Mfm.Domain.Events;
+﻿using Mfm.Domain.Events.Base;
 
-namespace Mfm.Domain.Entities;
+namespace Mfm.Domain.Entities.Base;
 public abstract class AggregateRoot
 {
     private readonly List<IDomainEvent> _domainEvents = [];

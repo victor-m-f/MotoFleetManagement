@@ -1,7 +1,8 @@
 ﻿using Mfm.Domain.Entities;
+using Mfm.Domain.Events.Base;
 
 namespace Mfm.Domain.Events;
-public class MotorcycleRegisteredEvent : IDomainEvent
+public sealed class MotorcycleRegisteredEvent : IDomainEvent
 {
     public Motorcycle Motorcycle { get; }
 
