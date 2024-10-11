@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  mfm.api:
+    image: ${DOCKER_REGISTRY-}mfmapi
+    build:
+      context: .
+      dockerfile: src/Mfm.Api/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+
+  db:
+    image: postgres:latest
+    container_name: db
+    environment:
+      - POSTGRES_DB=mfm
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  db-data:
