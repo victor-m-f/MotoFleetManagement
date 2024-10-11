@@ -5,8 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0-Solution Items", "0-Solution Items", "{A4261C29-82FB-4584-A57D-CEC533C1CAFD}"
 	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
-		Dockerfile = Dockerfile
+		.gitignore = .gitignore
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mfm.Domain", "src\Mfm.Domain\Mfm.Domain.csproj", "{AC8A13CF-0A9E-42CE-8C51-104D992B37E9}"
@@ -23,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-Infrastructure", "3-Infra
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4-Api", "4-Api", "{46C37FB5-F260-49DB-919D-7B1ECB76A40E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mfm.Api", "src\Mfm.Api\Mfm.Api.csproj", "{534F459C-475A-48DE-A794-BB1446AA2816}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mfm.Api", "src\Mfm.Api\Mfm.Api.csproj", "{534F459C-475A-48DE-A794-BB1446AA2816}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7FD46E7B-8F90-4230-9681-47FCFE07616C}"
 EndProject
