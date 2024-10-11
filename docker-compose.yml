@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    depends_on:
+      - db
+      - messagebroker
+    
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: mfm_user
+      POSTGRES_PASSWORD: StrongPassword123
+      POSTGRES_DB: mfm
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      
+  messagebroker:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+volumes:
+  db-data:
