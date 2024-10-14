@@ -3,12 +3,12 @@ using FluentAssertions.Types;
 using Mfm.Domain.Events;
 using Mfm.Domain.Events.Base;
 
-namespace Mfm.Domain.UnitTests.Entities;
+namespace Mfm.Domain.UnitTests.Events;
 public sealed class EventsArchitectureTests
 {
     private static TypeSelector EventsTypeSelector =>
         AllTypes
-        .From(typeof(MotorcycleRegisteredEvent).Assembly)
+        .From(typeof(MotorcycleCreatedEvent).Assembly)
         .ThatAreInNamespace("Mfm.Domain.Events");
 
     [Fact]

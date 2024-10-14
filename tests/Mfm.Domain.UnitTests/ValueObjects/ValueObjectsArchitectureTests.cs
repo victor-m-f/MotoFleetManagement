@@ -2,7 +2,7 @@
 using FluentAssertions.Types;
 using Mfm.Domain.Entities.ValueObjects;
 
-namespace Mfm.Domain.UnitTests.Entities;
+namespace Mfm.Domain.UnitTests.ValueObjects;
 public sealed class ValueObjectsArchitectureTests
 {
     private static TypeSelector ValueObjectTypeSelector =>
