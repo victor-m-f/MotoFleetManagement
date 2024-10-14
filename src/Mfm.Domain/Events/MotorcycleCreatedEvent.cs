@@ -2,11 +2,11 @@
 using Mfm.Domain.Events.Base;
 
 namespace Mfm.Domain.Events;
-public sealed class MotorcycleRegisteredEvent : IDomainEvent
+public sealed class MotorcycleCreatedEvent : IDomainEvent
 {
     public Motorcycle Motorcycle { get; }
 
-    public MotorcycleRegisteredEvent(Motorcycle motorcycle)
+    public MotorcycleCreatedEvent(Motorcycle motorcycle)
     {
         Motorcycle = motorcycle;
     }

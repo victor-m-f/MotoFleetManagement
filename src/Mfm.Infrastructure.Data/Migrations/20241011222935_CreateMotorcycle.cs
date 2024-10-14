@@ -14,10 +14,10 @@ public partial class CreateMotorcycle : Migration
             name: "Motorcycle",
             columns: table => new
             {
-                Id = table.Column<Guid>(type: "uuid", nullable: false),
+                Id = table.Column<string>(type: "text", nullable: false),
                 Year = table.Column<int>(type: "integer", nullable: false),
                 Model = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                LicensePlate = table.Column<string>(type: "character varying(7)", maxLength: 7, nullable: false)
+                LicensePlate = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false)
             },
             constraints: table =>
             {

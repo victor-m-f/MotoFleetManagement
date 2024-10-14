@@ -3,7 +3,7 @@ using Mfm.Domain.Entities.Rules;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Favs.Back.Medias.Data.TypeConfiguration;
+namespace Mfm.Infrastructure.Data.TypeConfiguration;
 
 internal sealed partial class MotorcycleConfiguration : IEntityTypeConfiguration<Motorcycle>
 {
@@ -11,17 +11,22 @@ internal sealed partial class MotorcycleConfiguration : IEntityTypeConfiguration
     {
         _ = builder.ToTable(nameof(Motorcycle));
 
-        builder.OwnsOne(x => x.LicensePlate, y =>
+        _ = builder.HasKey(x => x.Id);
+
+        _ = builder.Property(x => x.Year)
+            .IsRequired();
+
+        _ = builder.OwnsOne(x => x.LicensePlate, y =>
         {
             y.Property(z => z.Value)
               .HasColumnName(nameof(Motorcycle.LicensePlate))
               .IsRequired()
               .HasMaxLength(MotorcycleRules.LicensePlateMaxLength);
             y.HasIndex(z => z.Value)
-            .IsUnique(); 
+            .IsUnique();
         });
 
-        builder.Property(x => x.Model)
+        _ = builder.Property(x => x.Model)
             .IsRequired()
             .HasMaxLength(MotorcycleRules.ModelMaxLength);
     }

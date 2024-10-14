@@ -1,13 +1,26 @@
-﻿using Mfm.Application.Dtos.Motorcycles;
+﻿using MediatR;
+using Mfm.Application.Dtos.Motorcycles;
+using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
 using Microsoft.AspNetCore.Mvc;
+
+namespace Mfm.Api.Controllers.V1;
 
 [ApiController]
 [Route("motos")]
 public class MotorcyclesController : ControllerBase
 {
-    [HttpPost]
-    public IActionResult CreateMotorcycle([FromBody] MotorcycleDto motorcycle)
+    private readonly IMediator _mediator;
+
+    public MotorcyclesController(IMediator mediator)
     {
+        _mediator = mediator;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateMotorcycle([FromBody] MotorcycleDto motorcycle)
+    {
+        var output = await _mediator.Send(new CreateMotorcycleInput(motorcycle));
+
         return CreatedAtAction(nameof(GetMotorcycleById), new { id = motorcycle.Id }, motorcycle);
     }
 

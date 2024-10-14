@@ -1,27 +1,32 @@
+using Mfm.Api.Configuration.ResponseStandardization;
+using Mfm.Application.Configuration;
 using Mfm.Infrastructure.Data.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+_ = builder.Services.AddControllers();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+_ = builder.Services.AddEndpointsApiExplorer();
+_ = builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureApplication();
 builder.Services.ConfigureData(builder.Configuration);
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    _ = app.UseSwagger();
+    _ = app.UseSwaggerUI();
     app.ApplyMigrations();
 }
 
-app.UseHttpsRedirection();
+_ = app.UseMiddleware<ErrorMiddleware>();
 
-app.UseAuthorization();
+_ = app.UseHttpsRedirection();
 
-app.MapControllers();
+_ = app.UseAuthorization();
+
+_ = app.MapControllers();
 
 app.Run();

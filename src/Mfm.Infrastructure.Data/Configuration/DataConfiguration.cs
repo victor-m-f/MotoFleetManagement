@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Mfm.Domain.Repositories;
+using Mfm.Infrastructure.Data.Repositories;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +14,8 @@ public static class DataConfiguration
 
         services.AddDbContext<ApplicationDbContext>(
             options => options.UseNpgsql(connectionString));
+
+        services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
     }
 
     public static void ApplyMigrations(this IApplicationBuilder app)

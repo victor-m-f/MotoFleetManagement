@@ -24,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Mfm.Application\Mfm.Application.csproj" />
     <ProjectReference Include="..\Mfm.Infrastructure.Data\Mfm.Infrastructure.Data.csproj" />
   </ItemGroup>
