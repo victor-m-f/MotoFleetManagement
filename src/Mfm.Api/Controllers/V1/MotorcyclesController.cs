@@ -5,15 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Mfm.Api.Controllers.V1;
 
-[ApiController]
 [Route("motos")]
-public class MotorcyclesController : ControllerBase
+public sealed class MotorcyclesController : ApiControllerBase<MotorcyclesController>
 {
-    private readonly IMediator _mediator;
-
-    public MotorcyclesController(IMediator mediator)
+    public MotorcyclesController(ILogger<MotorcyclesController> logger, IMediator mediator)
+        : base(logger, mediator)
     {
-        _mediator = mediator;
     }
 
     [HttpPost]
@@ -21,9 +18,12 @@ public class MotorcyclesController : ControllerBase
         [FromBody] MotorcycleDto motorcycle,
         CancellationToken cancellationToken)
     {
-        var output = await _mediator.Send(new CreateMotorcycleInput(motorcycle), cancellationToken);
-
-        return CreatedAtAction(nameof(GetMotorcycleById), new { id = motorcycle.Id }, motorcycle);
+        using (StartUseCaseScope(nameof(CreateMotorcycle)))
+        {
+            var input = new CreateMotorcycleInput(motorcycle);
+            var output = await Mediator.Send(input, cancellationToken);
+            return Respond(nameof(GetMotorcycleById), new { id = motorcycle.Id }, motorcycle);
+        }
     }
 
     [HttpGet]
