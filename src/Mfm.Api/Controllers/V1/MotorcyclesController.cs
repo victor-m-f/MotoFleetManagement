@@ -17,9 +17,11 @@ public class MotorcyclesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateMotorcycle([FromBody] MotorcycleDto motorcycle)
+    public async Task<IActionResult> CreateMotorcycle(
+        [FromBody] MotorcycleDto motorcycle,
+        CancellationToken cancellationToken)
     {
-        var output = await _mediator.Send(new CreateMotorcycleInput(motorcycle));
+        var output = await _mediator.Send(new CreateMotorcycleInput(motorcycle), cancellationToken);
 
         return CreatedAtAction(nameof(GetMotorcycleById), new { id = motorcycle.Id }, motorcycle);
     }

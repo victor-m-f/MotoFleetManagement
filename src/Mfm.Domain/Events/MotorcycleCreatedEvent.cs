@@ -1,13 +1,18 @@
-﻿using Mfm.Domain.Entities;
-using Mfm.Domain.Events.Base;
+﻿using Mfm.Domain.Events.Base;
 
 namespace Mfm.Domain.Events;
-public sealed class MotorcycleCreatedEvent : IDomainEvent
+public sealed record MotorcycleCreatedEvent : IDomainEvent
 {
-    public Motorcycle Motorcycle { get; }
+    public string MotorcycleId { get; }
+    public int Year { get; }
+    public string Model { get; }
+    public string LicensePlate { get; }
 
-    public MotorcycleCreatedEvent(Motorcycle motorcycle)
+    public MotorcycleCreatedEvent(string motorcycleId, int year, string model, string licensePlate)
     {
-        Motorcycle = motorcycle;
+        MotorcycleId = motorcycleId;
+        Year = year;
+        Model = model;
+        LicensePlate = licensePlate;
     }
 }

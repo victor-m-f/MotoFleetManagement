@@ -2,22 +2,16 @@
 using Mfm.Domain.Repositories;
 
 namespace Mfm.Infrastructure.Data.Repositories;
-internal sealed class MotorcycleRepository : IMotorcycleRepository
+internal sealed class MotorcycleRepository : RepositoryBase, IMotorcycleRepository
 {
-    private readonly ApplicationDbContext _context;
 
     public MotorcycleRepository(ApplicationDbContext context)
+        : base(context)
     {
-        _context = context;
     }
 
     public void Add(Motorcycle motorcycle)
     {
-        _context.Motorcycles.Add(motorcycle);
-    }
-
-    public Task SaveChangesAsync()
-    {
-        return _context.SaveChangesAsync();
+        Context.Motorcycles.Add(motorcycle);
     }
 }

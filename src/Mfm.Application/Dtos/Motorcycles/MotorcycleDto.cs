@@ -7,19 +7,19 @@ public sealed record MotorcycleDto
 {
     [JsonPropertyName("identificador")]
     [Required]
-    public required string Id { get; set; }
+    public required string Id { get; init; }
     [JsonPropertyName("ano")]
     [Required]
-    public int Year { get; set; }
+    public int Year { get; init; }
     [JsonPropertyName("modelo")]
     [Required]
     [StringLength(
         MotorcycleRules.ModelMaxLength)]
-    public required string Model { get; set; }
+    public required string Model { get; init; }
     [JsonPropertyName("placa")]
     [Required]
     [StringLength(
         MotorcycleRules.LicensePlateMaxLength,
         MinimumLength = MotorcycleRules.LicensePlateMinLength)]
-    public required string LicensePlate { get; set; }
+    public required string LicensePlate { get; init; }
 }

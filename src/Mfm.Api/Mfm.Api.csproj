@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Mfm.Application\Mfm.Application.csproj" />
     <ProjectReference Include="..\Mfm.Infrastructure.Data\Mfm.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\Mfm.Infrastructure.Messaging\Mfm.Infrastructure.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

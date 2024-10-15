@@ -16,6 +16,7 @@ public static class DataConfiguration
             options => options.UseNpgsql(connectionString));
 
         services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
+        services.AddScoped<IMotorcycle2024Repository, Motorcycle2024Repository>();
     }
 
     public static void ApplyMigrations(this IApplicationBuilder app)
