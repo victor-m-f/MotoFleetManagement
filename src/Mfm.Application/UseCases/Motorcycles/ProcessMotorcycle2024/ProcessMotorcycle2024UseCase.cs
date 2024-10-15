@@ -25,8 +25,8 @@ public sealed class ProcessMotorcycle2024UseCase : UseCaseBase, IProcessMotorcyc
         var licensePlate = new LicensePlate(request.Motorcycle.LicensePlate);
         var motorcycle = new Motorcycle2024(
             request.Motorcycle.Id,
-            licensePlate,
             request.Motorcycle.Year,
+            licensePlate,
             request.Motorcycle.Model,
             _timeProvider);
 

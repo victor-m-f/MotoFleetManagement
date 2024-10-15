@@ -29,5 +29,8 @@ internal sealed partial class Motorcycle2024Configuration : IEntityTypeConfigura
         _ = builder.Property(x => x.Model)
             .IsRequired()
             .HasMaxLength(MotorcycleRules.ModelMaxLength);
+
+        _ = builder.Property(x => x.CreationDate)
+           .HasColumnType("timestamptz");
     }
 }

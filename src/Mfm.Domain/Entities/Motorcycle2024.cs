@@ -9,12 +9,12 @@ public sealed class Motorcycle2024
     public LicensePlate LicensePlate { get; private set; } = default!;
     public DateTimeOffset CreationDate { get; }
 
-    public Motorcycle2024(string id, LicensePlate licensePlate, int year, string model, TimeProvider timeProvider)
+    public Motorcycle2024(string id, int year, LicensePlate licensePlate, string model, TimeProvider timeProvider)
     {
 
         Id = id;
-        LicensePlate = licensePlate;
         Year = year;
+        LicensePlate = licensePlate;
         Model = model;
         CreationDate = timeProvider.GetUtcNow();
     }
