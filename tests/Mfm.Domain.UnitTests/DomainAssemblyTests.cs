@@ -2,7 +2,7 @@
 using System.Reflection;
 
 namespace Mfm.Domain.UnitTests;
-public sealed class AssemblyTests
+public sealed class DomainAssemblyTests
 {
     [Fact]
     public void Domain_ShouldNotReferenceOtherAssemblies()
