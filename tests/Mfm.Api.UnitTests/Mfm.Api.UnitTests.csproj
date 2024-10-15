@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Mfm.Domain\Mfm.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Mfm.Api\Mfm.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>
