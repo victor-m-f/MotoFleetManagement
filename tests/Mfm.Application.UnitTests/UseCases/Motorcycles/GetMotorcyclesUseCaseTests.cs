@@ -1,8 +1,10 @@
 ﻿using FluentAssertions;
+using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
 using Mfm.Application.UseCases.Motorcycles.GetMotorcycles;
 using Mfm.Domain.Entities;
 using Mfm.Domain.Entities.ValueObjects;
 using Mfm.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 
 namespace Mfm.Application.UnitTests.UseCases.Motorcycles;
@@ -22,7 +24,9 @@ public sealed class GetMotorcyclesUseCaseTests
         repository.GetMotorcyclesAsync(null, Arg.Any<CancellationToken>())
                   .Returns(motorcycles);
 
-        var useCase = new GetMotorcyclesUseCase(repository);
+        var useCase = new GetMotorcyclesUseCase(
+            Substitute.For<ILogger<GetMotorcyclesUseCase>>(),
+            repository);
 
         // Act
         var result = await useCase.Handle(new GetMotorcyclesInput(null), CancellationToken.None);
@@ -55,7 +59,9 @@ public sealed class GetMotorcyclesUseCaseTests
         repository.GetMotorcyclesAsync(licensePlate, Arg.Any<CancellationToken>())
                   .Returns(motorcycles.Where(m => m.LicensePlate.Value == licensePlate).ToList());
 
-        var useCase = new GetMotorcyclesUseCase(repository);
+        var useCase = new GetMotorcyclesUseCase(
+            Substitute.For<ILogger<GetMotorcyclesUseCase>>(),
+            repository);
 
         // Act
         var result = await useCase.Handle(new GetMotorcyclesInput(licensePlate), CancellationToken.None);

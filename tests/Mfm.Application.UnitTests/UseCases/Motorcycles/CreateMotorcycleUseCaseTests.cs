@@ -2,9 +2,11 @@
 using MassTransit;
 using Mfm.Application.Dtos.Motorcycles;
 using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
+using Mfm.Application.UseCases.Motorcycles.GetMotorcycles;
 using Mfm.Domain.Entities;
 using Mfm.Domain.Events;
 using Mfm.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using System.Net;
 
@@ -27,7 +29,10 @@ public sealed class CreateMotorcycleUseCaseTests
                 Model = "Test Model"
             });
 
-        var useCase = new CreateMotorcycleUseCase(repository, publisher);
+        var useCase = new CreateMotorcycleUseCase(
+            Substitute.For<ILogger<CreateMotorcycleUseCase>>(),
+            repository,
+            publisher);
         var cancellationToken = new CancellationToken();
 
         // Act
