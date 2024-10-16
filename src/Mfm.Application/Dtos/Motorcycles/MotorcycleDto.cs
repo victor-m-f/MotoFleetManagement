@@ -10,6 +10,7 @@ public sealed record MotorcycleDto
     public required string Id { get; init; }
     [JsonPropertyName("ano")]
     [Required]
+    [Range(minimum: MotorcycleRules.MinYear, int.MaxValue)]
     public int Year { get; init; }
     [JsonPropertyName("modelo")]
     [Required]

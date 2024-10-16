@@ -17,23 +17,23 @@ internal sealed class MotorcycleCreatedConsumer
         _mediator = mediator;
     }
 
-    public Task Consume(ConsumeContext<MotorcycleCreatedEvent> context)
+    public async Task Consume(ConsumeContext<MotorcycleCreatedEvent> context)
     {
         var motorcycleCreatedEvent = context.Message;
         _logger.LogInformation("Received event {event}.", motorcycleCreatedEvent);
 
-        if (motorcycleCreatedEvent.Year == 2024)
+        if (motorcycleCreatedEvent.Year != 2024)
         {
-            return _mediator.Send(new ProcessMotorcycle2024Input(
-                new MotorcycleDto
-                {
-                    Id = motorcycleCreatedEvent.MotorcycleId,
-                    Year = motorcycleCreatedEvent.Year,
-                    LicensePlate = motorcycleCreatedEvent.LicensePlate,
-                    Model = motorcycleCreatedEvent.Model,
-                }));
+            return;
         }
 
-        return Task.CompletedTask;
+        await _mediator.Send(new ProcessMotorcycle2024Input(
+            new MotorcycleDto
+            {
+                Id = motorcycleCreatedEvent.MotorcycleId,
+                Year = motorcycleCreatedEvent.Year,
+                LicensePlate = motorcycleCreatedEvent.LicensePlate,
+                Model = motorcycleCreatedEvent.Model,
+            }));
     }
 }

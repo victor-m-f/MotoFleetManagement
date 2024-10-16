@@ -34,13 +34,21 @@ internal sealed class CreateMotorcycleUseCase : UseCaseBase, ICreateMotorcycleUs
         _motorcycleRepository.Add(motorcycle);
         await _motorcycleRepository.SaveChangesAsync(cancellationToken);
 
-        await _messagePublisher.Publish(
-            new MotorcycleCreatedEvent(
-                motorcycle.Id,
-                motorcycle.Year,
-                motorcycle.Model,
-                motorcycle.LicensePlate.Value),
-            cancellationToken);
+        try
+        {
+
+            await _messagePublisher.Publish(
+                new MotorcycleCreatedEvent(
+                    motorcycle.Id,
+                    motorcycle.Year,
+                    motorcycle.Model,
+                    motorcycle.LicensePlate.Value),
+                cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
 
         return new CreateMotorcycleOutput();
     }

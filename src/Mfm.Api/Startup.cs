@@ -2,6 +2,7 @@
 using Mfm.Application.Configuration;
 using Mfm.Infrastructure.Data.Configuration;
 using Mfm.Infrastructure.Messaging.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace Mfm.Api;
 
@@ -24,7 +25,7 @@ public sealed class Startup
 
         services.ConfigureApplication();
         services.ConfigureData(_configuration);
-        services.ConfigureMessaging(_configuration);
+        services.ConfigureMessaging(_configuration.GetConnectionString("RabbitMq"));
     }
 
     public void Configure(WebApplication app)

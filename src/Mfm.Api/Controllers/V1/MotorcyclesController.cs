@@ -40,8 +40,8 @@ public sealed class MotorcyclesController : ApiControllerBase<MotorcyclesControl
         return NoContent();
     }
 
-    [HttpGet("{id}")]
-    public IActionResult GetMotorcycleById(string id)
+    [HttpGet("{id}", Name = nameof(GetMotorcycleById))]
+    public IActionResult GetMotorcycleById(string id, CancellationToken cancellationToken)
     {
         return Ok();
     }
