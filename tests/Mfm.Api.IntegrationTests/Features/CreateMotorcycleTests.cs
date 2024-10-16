@@ -1,7 +1,9 @@
 ﻿using Bogus;
 using FluentAssertions;
 using Mfm.Api.IntegrationTests.Support;
+using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
 using Mfm.Domain.Entities.Rules;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -55,14 +57,51 @@ public class CreateMotorcycleTests : FeatureTestsBase
 
         // Act
         var response = await HttpClient.PostAsync("/motos", content);
-
         // Assert
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
 
-        var createdMotorcycle = await DbContext.Motorcycles.FindAsync(motorcycle.identificador);
-        createdMotorcycle.Should().NotBeNull();
-        var createdMotorcycle2024 = await DbContext.Motorcycles2024.FindAsync(motorcycle.identificador);
-        createdMotorcycle2024.Should().NotBeNull();
+        await TestHelper.AssertEventuallyAsync(async () =>
+        {
+            var createdMotorcycle = await DbContext.Motorcycles.FindAsync(motorcycle.identificador);
+            createdMotorcycle.Should().NotBeNull();
+            var createdMotorcycle2024 = await DbContext.Motorcycles2024.FindAsync(motorcycle.identificador);
+            createdMotorcycle2024.Should().NotBeNull();
+        });
+    }
+
+    [Fact]
+    public async Task ShouldReturnBadRequest_WhenLicensePlateIsDuplicated()
+    {
+        // Arrange
+        var licensePlate = "ABC12345";
+        var faker = new Faker();
+        var motorcycle = new
+        {
+            identificador = faker.Random.Guid().ToString(),
+            placa = licensePlate,
+            ano = faker.Random.Int(MotorcycleRules.MinYear, DateTime.Now.Year),
+            modelo = faker.Vehicle.Model()
+        };
+
+        var content = new StringContent(
+            JsonConvert.SerializeObject(motorcycle),
+            Encoding.UTF8,
+            "application/json");
+
+        var firstResponse = await HttpClient.PostAsync("/motos", content);
+        firstResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.Created);
+
+        // Act
+        var secondResponse = await HttpClient.PostAsync("/motos", content);
+
+        // Assert
+        secondResponse.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);
+
+        var responseContent = await secondResponse.Content.ReadAsStringAsync();
+        responseContent.Should().Contain(CreateMotorcycleOutput.SameLicensePlateErrorMessage);
+
+        var savedMotorcycles = await DbContext.Motorcycles.CountAsync();
+        savedMotorcycles.Should().Be(1);
     }
 
     [Theory]

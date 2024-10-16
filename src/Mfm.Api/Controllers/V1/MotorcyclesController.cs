@@ -22,7 +22,10 @@ public sealed class MotorcyclesController : ApiControllerBase<MotorcyclesControl
         {
             var input = new CreateMotorcycleInput(motorcycle);
             var output = await Mediator.Send(input, cancellationToken);
-            return Respond(nameof(GetMotorcycleById), new { id = motorcycle.Id }, motorcycle);
+
+            return output.IsValid
+                ? RespondCreated(nameof(GetMotorcycleById), new { id = motorcycle.Id }, motorcycle)
+                : RespondError(output);
         }
     }
 

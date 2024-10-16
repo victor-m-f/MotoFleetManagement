@@ -4,6 +4,7 @@ using Mfm.Domain.Entities;
 using Mfm.Domain.Entities.ValueObjects;
 using Mfm.Domain.Events;
 using Mfm.Domain.Repositories;
+using System.Net;
 
 namespace Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
 
@@ -24,6 +25,15 @@ internal sealed class CreateMotorcycleUseCase : UseCaseBase, ICreateMotorcycleUs
         CreateMotorcycleInput request,
         CancellationToken cancellationToken)
     {
+        var existsMotorcycleWithLicensePlate = await _motorcycleRepository.ExistsMotorcyleWithLicensePlateAsync(
+            request.Motorcycle.LicensePlate,
+            cancellationToken);
+
+        if (existsMotorcycleWithLicensePlate)
+        {
+            return CreateMotorcycleOutput.CreateSameLicensePlateError();
+        }
+
         var licensePlate = new LicensePlate(request.Motorcycle.LicensePlate);
         var motorcycle = new Motorcycle(
             request.Motorcycle.Id,
@@ -34,21 +44,13 @@ internal sealed class CreateMotorcycleUseCase : UseCaseBase, ICreateMotorcycleUs
         _motorcycleRepository.Add(motorcycle);
         await _motorcycleRepository.SaveChangesAsync(cancellationToken);
 
-        try
-        {
-
-            await _messagePublisher.Publish(
-                new MotorcycleCreatedEvent(
-                    motorcycle.Id,
-                    motorcycle.Year,
-                    motorcycle.Model,
-                    motorcycle.LicensePlate.Value),
-                cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
+        await _messagePublisher.Publish(
+            new MotorcycleCreatedEvent(
+                motorcycle.Id,
+                motorcycle.Year,
+                motorcycle.Model,
+                motorcycle.LicensePlate.Value),
+            cancellationToken);
 
         return new CreateMotorcycleOutput();
     }

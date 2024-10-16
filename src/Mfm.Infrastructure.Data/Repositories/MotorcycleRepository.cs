@@ -1,5 +1,6 @@
 ﻿using Mfm.Domain.Entities;
 using Mfm.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mfm.Infrastructure.Data.Repositories;
 internal sealed class MotorcycleRepository : RepositoryBase, IMotorcycleRepository
@@ -13,5 +14,12 @@ internal sealed class MotorcycleRepository : RepositoryBase, IMotorcycleReposito
     public void Add(Motorcycle motorcycle)
     {
         Context.Motorcycles.Add(motorcycle);
+    }
+
+    public Task<bool> ExistsMotorcyleWithLicensePlateAsync(string licensePlate, CancellationToken cancellationToken)
+    {
+        return Context.Motorcycles
+            .AsNoTracking()
+            .AnyAsync(m => m.LicensePlate.Value == licensePlate, cancellationToken);
     }
 }
