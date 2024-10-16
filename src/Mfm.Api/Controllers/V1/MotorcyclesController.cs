@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Mfm.Application.Dtos.Motorcycles;
 using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
+using Mfm.Application.UseCases.Motorcycles.GetMotorcycles;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mfm.Api.Controllers.V1;
@@ -23,16 +24,22 @@ public sealed class MotorcyclesController : ApiControllerBase<MotorcyclesControl
             var input = new CreateMotorcycleInput(motorcycle);
             var output = await Mediator.Send(input, cancellationToken);
 
-            return output.IsValid
-                ? RespondCreated(nameof(GetMotorcycleById), new { id = motorcycle.Id }, motorcycle)
-                : RespondError(output);
+            return Respond(output, nameof(GetMotorcycleById), new { id = motorcycle.Id }, motorcycle);
         }
     }
 
     [HttpGet]
-    public IActionResult GetMotorcycles()
+    public async Task<IActionResult> GetMotorcycles(
+        [FromQuery] string? licensePlate,
+        CancellationToken cancellationToken)
     {
-        return Ok();
+        using (StartUseCaseScope(nameof(GetMotorcycles)))
+        {
+            var input = new GetMotorcyclesInput(licensePlate);
+            var output = await Mediator.Send(input, cancellationToken);
+
+            return Respond(output, output.Motorcycles);
+        }
     }
 
     [HttpPut("{id}/placa")]

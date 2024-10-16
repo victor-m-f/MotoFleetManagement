@@ -2,7 +2,7 @@
 using FluentAssertions.Types;
 using Mfm.Api.Controllers.V1;
 
-namespace Mfm.Domain.UnitTests.Entities;
+namespace Mfm.Api.UnitTests.Controllers;
 public sealed class ControllersArchitectureTests
 {
     private static TypeSelector ControllersTypeSelector =>

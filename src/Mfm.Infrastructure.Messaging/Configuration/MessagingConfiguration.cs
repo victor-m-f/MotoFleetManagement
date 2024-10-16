@@ -1,5 +1,4 @@
-﻿using Favs.Back.Users.Application.EventHandlers.IntegrationConsumers.Identity;
-using MassTransit;
+﻿using MassTransit;
 using Mfm.Infrastructure.Messaging.Consumers;
 using Microsoft.Extensions.DependencyInjection;
 

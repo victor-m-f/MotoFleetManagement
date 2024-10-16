@@ -25,9 +25,9 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         await _rabbitMq.StartAsync();
     }
 
-    public new Task DisposeAsync()
+    public new async Task DisposeAsync()
     {
-        return Task.WhenAll(
+        await Task.WhenAll(
             _postgres.StopAsync(),
             _rabbitMq.StopAsync());
     }
@@ -50,15 +50,17 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         if (context != null)
         {
             services.Remove(context);
-            var options = services.Where(r => (r.ServiceType == typeof(DbContextOptions))
-              || (r.ServiceType.IsGenericType && r.ServiceType.GetGenericTypeDefinition() == typeof(DbContextOptions<>))).ToArray();
+            var options = services.Where(r =>
+                (r.ServiceType == typeof(DbContextOptions)) ||
+                (r.ServiceType.IsGenericType && r.ServiceType.GetGenericTypeDefinition() == typeof(DbContextOptions<>)))
+                .ToArray();
             foreach (var option in options)
             {
                 services.Remove(option);
             }
         }
 
-        _ = services.AddDbContext<ApplicationDbContext>(options =>
+        services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseNpgsql(_postgres.GetConnectionString());
         });
@@ -66,7 +68,10 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
 
     private void ConfigureRabbitMq(IServiceCollection services)
     {
-        var massTransitServices = services.Where(x => x.ServiceType.FullName!.StartsWith("MassTransit")).ToList();
+        var massTransitServices = services
+            .Where(x => x.ServiceType.FullName!.StartsWith("MassTransit"))
+            .ToList();
+
         foreach (var service in massTransitServices)
         {
             services.Remove(service);

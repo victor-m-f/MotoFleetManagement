@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 using Mfm.Application.Dtos.Motorcycles;
-using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
+using Mfm.Application.UseCases.Motorcycles.ProcessMotorcycle2024;
 using Mfm.Domain.Events;
 using Microsoft.Extensions.Logging;
 

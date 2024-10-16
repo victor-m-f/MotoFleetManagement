@@ -3,7 +3,7 @@ using Mfm.Domain.Entities;
 using Mfm.Domain.Entities.ValueObjects;
 using Mfm.Domain.Repositories;
 
-namespace Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
+namespace Mfm.Application.UseCases.Motorcycles.ProcessMotorcycle2024;
 
 public sealed class ProcessMotorcycle2024UseCase : UseCaseBase, IProcessMotorcycle2024UseCase
 {

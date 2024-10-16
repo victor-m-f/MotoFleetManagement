@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using System.Reflection;
 
-namespace Mfm.Domain.UnitTests;
+namespace Mfm.Application.UnitTests;
 public sealed class ApplicationAssemblyTests
 {
     [Fact]

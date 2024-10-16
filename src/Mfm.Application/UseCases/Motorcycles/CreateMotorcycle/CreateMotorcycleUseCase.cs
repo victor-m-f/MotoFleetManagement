@@ -4,7 +4,6 @@ using Mfm.Domain.Entities;
 using Mfm.Domain.Entities.ValueObjects;
 using Mfm.Domain.Events;
 using Mfm.Domain.Repositories;
-using System.Net;
 
 namespace Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
 

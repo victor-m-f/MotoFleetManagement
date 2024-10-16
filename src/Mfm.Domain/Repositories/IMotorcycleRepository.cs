@@ -7,4 +7,7 @@ public interface IMotorcycleRepository : IRepository
     public Task<bool> ExistsMotorcyleWithLicensePlateAsync(
         string licensePlate,
         CancellationToken cancellationToken);
+    public Task<List<Motorcycle>> GetMotorcyclesAsync(
+        string? licensePlate,
+        CancellationToken cancellationToken);
 }

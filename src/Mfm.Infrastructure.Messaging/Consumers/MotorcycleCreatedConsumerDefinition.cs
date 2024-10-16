@@ -1,7 +1,6 @@
 ﻿using MassTransit;
-using Mfm.Infrastructure.Messaging.Consumers;
 
-namespace Favs.Back.Users.Application.EventHandlers.IntegrationConsumers.Identity;
+namespace Mfm.Infrastructure.Messaging.Consumers;
 internal sealed class MotorcycleCreatedConsumerDefinition : ConsumerDefinition<MotorcycleCreatedConsumer>
 {
     public MotorcycleCreatedConsumerDefinition()

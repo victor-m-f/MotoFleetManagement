@@ -22,4 +22,16 @@ internal sealed class MotorcycleRepository : RepositoryBase, IMotorcycleReposito
             .AsNoTracking()
             .AnyAsync(m => m.LicensePlate.Value == licensePlate, cancellationToken);
     }
+
+    public Task<List<Motorcycle>> GetMotorcyclesAsync(string? licensePlate, CancellationToken cancellationToken)
+    {
+        var query = Context.Motorcycles.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(licensePlate))
+        {
+            query = query.Where(m => m.LicensePlate.Value == licensePlate);
+        }
+
+        return query.ToListAsync(cancellationToken);
+    }
 }

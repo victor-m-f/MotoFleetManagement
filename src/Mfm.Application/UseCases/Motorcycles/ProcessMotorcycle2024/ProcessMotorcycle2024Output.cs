@@ -1,7 +1,7 @@
 ﻿using Mfm.Application.UseCases.Base;
 using System.Net;
 
-namespace Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
+namespace Mfm.Application.UseCases.Motorcycles.ProcessMotorcycle2024;
 
 public sealed class ProcessMotorcycle2024Output : OutputBase
 {

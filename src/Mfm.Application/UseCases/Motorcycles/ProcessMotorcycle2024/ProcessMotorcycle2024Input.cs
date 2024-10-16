@@ -1,7 +1,7 @@
 ﻿using Mfm.Application.Dtos.Motorcycles;
 using Mfm.Application.UseCases.Base;
 
-namespace Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
+namespace Mfm.Application.UseCases.Motorcycles.ProcessMotorcycle2024;
 
 public sealed class ProcessMotorcycle2024Input : InputBase<ProcessMotorcycle2024Output>
 {

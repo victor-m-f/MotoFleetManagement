@@ -22,7 +22,40 @@ public abstract class ApiControllerBase<TApiController> : ControllerBase
     protected IDisposable? StartUseCaseScope(string useCaseName) =>
         _logger.BeginScope(new Dictionary<string, string> { { "UseCase", useCaseName } });
 
-    protected IActionResult RespondError(OutputBase output)
+
+    protected IActionResult Respond(OutputBase output, object value)
+    {
+        if (output.IsInvalid)
+        {
+            return RespondError(output);
+        }
+
+        if (output.StatusCode == StatusCodes.Status201Created)
+        {
+            _logger.LogWarning(
+                "Status 201 detected. Prefer using the overload with route name and values for CreatedAtRoute responses.");
+        }
+
+        LogResponse(output.StatusCode, value);
+        return StatusCode(output.StatusCode, value);
+    }
+
+    protected IActionResult Respond(
+        OutputBase output,
+        string routeName,
+        object routeValues,
+        object value)
+    {
+        if (output.IsInvalid)
+        {
+            return RespondError(output);
+        }
+
+        LogResponse(StatusCodes.Status201Created, value);
+        return CreatedAtRoute(routeName, routeValues, value);
+    }
+
+    private ObjectResult RespondError(OutputBase output)
     {
         var response = new
         {
@@ -32,15 +65,6 @@ public abstract class ApiControllerBase<TApiController> : ControllerBase
         LogResponse(output.StatusCode, response);
 
         return StatusCode(output.StatusCode, response);
-    }
-
-    protected IActionResult RespondCreated(
-        string routeName,
-        object routeValues,
-        object value)
-    {
-        LogResponse(StatusCodes.Status201Created, value);
-        return CreatedAtRoute(routeName, routeValues, value);
     }
 
     private void LogResponse(int statusCode, object response)
