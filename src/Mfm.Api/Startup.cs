@@ -1,4 +1,5 @@
-﻿using Mfm.Api.Configuration.ResponseStandardization;
+﻿using Mfm.Api.Configuration.Logging;
+using Mfm.Api.Configuration.ResponseStandardization;
 using Mfm.Application.Configuration;
 using Mfm.Infrastructure.Data.Configuration;
 using Mfm.Infrastructure.Messaging.Configuration;
@@ -36,12 +37,11 @@ public sealed class Startup
             app.ApplyMigrations();
         }
 
+        app.UseLoggingConfiguration();
         _ = app.UseMiddleware<ErrorMiddleware>();
 
         _ = app.UseHttpsRedirection();
-
         _ = app.UseAuthorization();
-
         _ = app.MapControllers();
     }
 }

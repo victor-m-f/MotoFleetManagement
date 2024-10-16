@@ -2,6 +2,7 @@
 using Mfm.Domain.Entities;
 using Mfm.Domain.Entities.ValueObjects;
 using Mfm.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace Mfm.Application.UseCases.Motorcycles.ProcessMotorcycle2024;
 
@@ -11,8 +12,10 @@ public sealed class ProcessMotorcycle2024UseCase : UseCaseBase, IProcessMotorcyc
     private readonly TimeProvider _timeProvider;
 
     public ProcessMotorcycle2024UseCase(
+        ILogger<ProcessMotorcycle2024UseCase> logger,
         IMotorcycle2024Repository motorcycle2024Repository,
         TimeProvider timeProvider)
+        : base(logger)
     {
         _motorcycle2024Repository = motorcycle2024Repository;
         _timeProvider = timeProvider;
@@ -22,6 +25,8 @@ public sealed class ProcessMotorcycle2024UseCase : UseCaseBase, IProcessMotorcyc
         ProcessMotorcycle2024Input request,
         CancellationToken cancellationToken)
     {
+        LogUseCaseExecutionStarted(request);
+
         var licensePlate = new LicensePlate(request.Motorcycle.LicensePlate);
         var motorcycle = new Motorcycle2024(
             request.Motorcycle.Id,

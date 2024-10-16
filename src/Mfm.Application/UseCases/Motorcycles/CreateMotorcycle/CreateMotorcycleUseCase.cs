@@ -4,6 +4,7 @@ using Mfm.Domain.Entities;
 using Mfm.Domain.Entities.ValueObjects;
 using Mfm.Domain.Events;
 using Mfm.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
 
@@ -13,8 +14,10 @@ internal sealed class CreateMotorcycleUseCase : UseCaseBase, ICreateMotorcycleUs
     private readonly IPublishEndpoint _messagePublisher;
 
     public CreateMotorcycleUseCase(
+        ILogger<CreateMotorcycleUseCase> logger,
         IMotorcycleRepository motorcycleRepository,
         IPublishEndpoint messagePublisher)
+        : base(logger)
     {
         _motorcycleRepository = motorcycleRepository;
         _messagePublisher = messagePublisher;
@@ -24,6 +27,8 @@ internal sealed class CreateMotorcycleUseCase : UseCaseBase, ICreateMotorcycleUs
         CreateMotorcycleInput request,
         CancellationToken cancellationToken)
     {
+        LogUseCaseExecutionStarted(request);
+
         var existsMotorcycleWithLicensePlate = await _motorcycleRepository.ExistsMotorcyleWithLicensePlateAsync(
             request.Motorcycle.LicensePlate,
             cancellationToken);

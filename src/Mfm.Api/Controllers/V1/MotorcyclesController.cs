@@ -19,13 +19,10 @@ public sealed class MotorcyclesController : ApiControllerBase<MotorcyclesControl
         [FromBody] MotorcycleDto motorcycle,
         CancellationToken cancellationToken)
     {
-        using (StartUseCaseScope(nameof(CreateMotorcycle)))
-        {
-            var input = new CreateMotorcycleInput(motorcycle);
-            var output = await Mediator.Send(input, cancellationToken);
+        var input = new CreateMotorcycleInput(motorcycle);
+        var output = await Mediator.Send(input, cancellationToken);
 
-            return Respond(output, nameof(GetMotorcycleById), new { id = motorcycle.Id }, motorcycle);
-        }
+        return Respond(output, nameof(GetMotorcycleById), new { id = motorcycle.Id }, motorcycle);
     }
 
     [HttpGet]
@@ -33,13 +30,10 @@ public sealed class MotorcyclesController : ApiControllerBase<MotorcyclesControl
         [FromQuery] string? licensePlate,
         CancellationToken cancellationToken)
     {
-        using (StartUseCaseScope(nameof(GetMotorcycles)))
-        {
-            var input = new GetMotorcyclesInput(licensePlate);
-            var output = await Mediator.Send(input, cancellationToken);
+        var input = new GetMotorcyclesInput(licensePlate);
+        var output = await Mediator.Send(input, cancellationToken);
 
-            return Respond(output, output.Motorcycles);
-        }
+        return Respond(output, output.Motorcycles);
     }
 
     [HttpPut("{id}/placa")]

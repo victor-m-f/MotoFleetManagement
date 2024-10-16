@@ -19,10 +19,6 @@ public abstract class ApiControllerBase<TApiController> : ControllerBase
         Mediator = mediator;
     }
 
-    protected IDisposable? StartUseCaseScope(string useCaseName) =>
-        _logger.BeginScope(new Dictionary<string, string> { { "UseCase", useCaseName } });
-
-
     protected IActionResult Respond(OutputBase output, object value)
     {
         if (output.IsInvalid)
