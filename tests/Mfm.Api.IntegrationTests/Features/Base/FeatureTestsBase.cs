@@ -3,7 +3,7 @@ using Mfm.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Mfm.Api.IntegrationTests.Features;
+namespace Mfm.Api.IntegrationTests.Features.Base;
 
 public abstract class FeatureTestsBase : IClassFixture<ApiFactory>, IDisposable
 {

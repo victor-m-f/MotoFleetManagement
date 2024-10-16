@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using FluentAssertions;
+using Mfm.Api.IntegrationTests.Features.Base;
 using Mfm.Api.IntegrationTests.Support;
 using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
 using Mfm.Domain.Entities.Rules;

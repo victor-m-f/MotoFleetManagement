@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Mfm.Api.IntegrationTests.Features.Base;
 using Mfm.Api.IntegrationTests.Support;
 using Mfm.Application.Dtos.Motorcycles;
 using Mfm.Domain.Entities;

@@ -29,7 +29,7 @@ internal sealed class CreateMotorcycleUseCase : UseCaseBase, ICreateMotorcycleUs
     {
         LogUseCaseExecutionStarted(request);
 
-        var existsMotorcycleWithLicensePlate = await _motorcycleRepository.ExistsMotorcyleWithLicensePlateAsync(
+        var existsMotorcycleWithLicensePlate = await _motorcycleRepository.ExistsMotorcycleWithLicensePlateAsync(
             request.Motorcycle.LicensePlate,
             cancellationToken);
 

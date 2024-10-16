@@ -16,7 +16,7 @@ internal sealed class MotorcycleRepository : RepositoryBase, IMotorcycleReposito
         Context.Motorcycles.Add(motorcycle);
     }
 
-    public Task<bool> ExistsMotorcyleWithLicensePlateAsync(string licensePlate, CancellationToken cancellationToken)
+    public Task<bool> ExistsMotorcycleWithLicensePlateAsync(string licensePlate, CancellationToken cancellationToken)
     {
         return Context.Motorcycles
             .AsNoTracking()
@@ -33,5 +33,10 @@ internal sealed class MotorcycleRepository : RepositoryBase, IMotorcycleReposito
         }
 
         return query.ToListAsync(cancellationToken);
+    }
+
+    public Task<Motorcycle?> GetByIdAsync(string id, CancellationToken cancellationToken)
+    {
+        return Context.Motorcycles.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 }

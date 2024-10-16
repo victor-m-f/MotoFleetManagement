@@ -19,7 +19,7 @@ public abstract class ApiControllerBase<TApiController> : ControllerBase
         Mediator = mediator;
     }
 
-    protected IActionResult Respond(OutputBase output, object value)
+    protected IActionResult Respond(OutputBase output, object? value = null)
     {
         if (output.IsInvalid)
         {
@@ -32,7 +32,11 @@ public abstract class ApiControllerBase<TApiController> : ControllerBase
                 "Status 201 detected. Prefer using the overload with route name and values for CreatedAtRoute responses.");
         }
 
-        LogResponse(output.StatusCode, value);
+        if (value is not null)
+        {
+            LogResponse(output.StatusCode, value);
+        }
+
         return StatusCode(output.StatusCode, value);
     }
 

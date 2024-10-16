@@ -2,6 +2,7 @@
 using Mfm.Application.Dtos.Motorcycles;
 using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
 using Mfm.Application.UseCases.Motorcycles.GetMotorcycles;
+using Mfm.Application.UseCases.Motorcycles.UpdateMotorcycleLicensePlate;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mfm.Api.Controllers.V1;
@@ -37,11 +38,14 @@ public sealed class MotorcyclesController : ApiControllerBase<MotorcyclesControl
     }
 
     [HttpPut("{id}/placa")]
-    public IActionResult UpdateMotorcycleLicensePlate(
+    public async Task<IActionResult> UpdateMotorcycleLicensePlate(
         string id,
-        [FromBody] UpdateLicensePlateDto newPlate)
+        [FromBody] UpdateLicensePlateDto request,
+        CancellationToken cancellationToken)
     {
-        return NoContent();
+        var input = new UpdateMotorcycleLicensePlateInput(id, request.LicensePlate);
+        var output = await Mediator.Send(input, cancellationToken);
+        return Respond(output);
     }
 
     [HttpGet("{id}", Name = nameof(GetMotorcycleById))]
