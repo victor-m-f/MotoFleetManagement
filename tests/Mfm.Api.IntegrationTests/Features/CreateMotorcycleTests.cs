@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using FluentAssertions;
 using Mfm.Api.IntegrationTests.Support;
-using Mfm.Application.Dtos.Motorcycles;
 using Mfm.Domain.Entities.Rules;
 using Newtonsoft.Json;
 using System.Text;

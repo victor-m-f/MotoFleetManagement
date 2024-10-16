@@ -2,7 +2,6 @@
 using Mfm.Application.Configuration;
 using Mfm.Infrastructure.Data.Configuration;
 using Mfm.Infrastructure.Messaging.Configuration;
-using Microsoft.Extensions.Configuration;
 
 namespace Mfm.Api;
 

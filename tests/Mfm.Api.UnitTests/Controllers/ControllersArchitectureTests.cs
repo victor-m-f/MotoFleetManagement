@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using FluentAssertions.Common;
 using FluentAssertions.Types;
 using Mfm.Api.Controllers.V1;
 
