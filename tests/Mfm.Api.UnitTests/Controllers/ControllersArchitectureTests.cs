@@ -11,7 +11,7 @@ public sealed class ControllersArchitectureTests
         .ThatAreInNamespace("Mfm.Api.Controllers.V1");
 
     [Fact]
-    public void DomainEntities_ShouldBeSealed()
+    public void Controllers_ShouldBeSealed()
     {
         ControllersTypeSelector
             .Should()
