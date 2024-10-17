@@ -23,9 +23,19 @@ jobs:
 
       - name: Run all tests with coverage
         run: |
-          dotnet test MotoFleetManagement.sln --no-build --configuration Release --collect:"XPlat Code Coverage" --results-directory ./TestResults
+          dotnet test MotoFleetManagement.sln --no-build --configuration Release \
+            --collect:"XPlat Code Coverage" --results-directory ./TestResults
 
-      - name: Report coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./TestResults/**/coverage.cobertura.xml
+          flags: unittests
+          name: MotoFleetManagement
+          fail_ci_if_error: true
+
+      - name: Report coverage (paths filter)
         uses: dorny/paths-filter@v3
         with:
           filters: |
