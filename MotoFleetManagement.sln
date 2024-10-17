@@ -6,6 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0-Solution Items", "0-Solution Items", "{A4261C29-82FB-4584-A57D-CEC533C1CAFD}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+		coverlet.runsettings = coverlet.runsettings
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mfm.Domain", "src\Mfm.Domain\Mfm.Domain.csproj", "{AC8A13CF-0A9E-42CE-8C51-104D992B37E9}"
@@ -32,15 +34,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2447092D
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{B5700F03-D4E3-4C5B-9E85-ECE697CDCCB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mfm.Domain.UnitTests", "tests\Mfm.Domain.UnitTests\Mfm.Domain.UnitTests.csproj", "{B8A4D128-2F49-415B-BFEF-CDFC4238F87B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mfm.Domain.UnitTests", "tests\Mfm.Domain.UnitTests\Mfm.Domain.UnitTests.csproj", "{B8A4D128-2F49-415B-BFEF-CDFC4238F87B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mfm.Application.UnitTests", "tests\Mfm.Application.UnitTests\Mfm.Application.UnitTests.csproj", "{33251993-3B29-459F-BF38-B15D2A4B9E0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mfm.Application.UnitTests", "tests\Mfm.Application.UnitTests\Mfm.Application.UnitTests.csproj", "{33251993-3B29-459F-BF38-B15D2A4B9E0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mfm.Infrastructure.Messaging", "src\Mfm.Infrastructure.Messaging\Mfm.Infrastructure.Messaging.csproj", "{12225F32-3104-4E4D-8536-7E7029B21FF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mfm.Infrastructure.Messaging", "src\Mfm.Infrastructure.Messaging\Mfm.Infrastructure.Messaging.csproj", "{12225F32-3104-4E4D-8536-7E7029B21FF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mfm.Api.UnitTests", "tests\Mfm.Api.UnitTests\Mfm.Api.UnitTests.csproj", "{D337E049-7634-4FA4-A814-02D826DFA7F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mfm.Api.UnitTests", "tests\Mfm.Api.UnitTests\Mfm.Api.UnitTests.csproj", "{D337E049-7634-4FA4-A814-02D826DFA7F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mfm.Api.IntegrationTests", "tests\Mfm.Api.IntegrationTests\Mfm.Api.IntegrationTests.csproj", "{BDD4BDB8-4D31-4F48-A6F8-D0BEFE30158A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mfm.Api.IntegrationTests", "tests\Mfm.Api.IntegrationTests\Mfm.Api.IntegrationTests.csproj", "{BDD4BDB8-4D31-4F48-A6F8-D0BEFE30158A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
