@@ -1,36 +1,35 @@
-name: CI
+name: CI Pipeline
 
 on: [push, pull_request]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Check out code
+        uses: actions/checkout@v3
 
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: '8.0'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.x
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore MotoFleetManagement.sln
 
-    - name: Run tests with coverage
-      run: |
-        dotnet test --collect:"XPlat Code Coverage" --settings coverlet.runsettings
+      - name: Build solution
+        run: dotnet build MotoFleetManagement.sln --no-restore --configuration Release
 
-    - name: Install ReportGenerator
-      run: dotnet tool install --global dotnet-reportgenerator-globaltool
+      - name: Run all tests with coverage
+        run: |
+          dotnet test MotoFleetManagement.sln --no-build --configuration Release --collect:"XPlat Code Coverage" --results-directory ./TestResults
 
-    - name: Generate coverage report
-      run: |
-        reportgenerator -reports:**/coverage.cobertura.xml -targetdir:./CoverageReport
+      - name: Report coverage
+        uses: dorny/paths-filter@v3
 
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: ./CoverageReport
+      - name: Upload coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: TestResults
+          path: ./TestResults
