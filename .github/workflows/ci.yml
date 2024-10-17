@@ -25,8 +25,6 @@ jobs:
         run: |
           dotnet test MotoFleetManagement.sln --no-build --configuration Release \
             --collect:"XPlat Code Coverage" --results-directory ./TestResults
-          echo "Test Results:"
-          ls -R ./TestResults
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
@@ -36,3 +34,23 @@ jobs:
           flags: unittests
           name: codecov-coverage-report
           fail_ci_if_error: true
+
+      - name: Move Coverage Files to Single Location
+        run: |
+          mkdir -p ./coverage
+          find ./TestResults -name 'coverage.cobertura.xml' -exec cp {} ./coverage/ \;
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/coverage.cobertura.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unittests
+          name: codecov-coverage-report
+          fail_ci_if_error: true
+
+      - name: Debug Coverage Files (Optional)
+        if: failure()
+        run: |
+          echo "Failed to upload coverage. Here is the structure of ./coverage:"
+          ls -l ./coverage
