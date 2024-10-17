@@ -2,7 +2,6 @@
 using MassTransit;
 using Mfm.Application.Dtos.Motorcycles;
 using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
-using Mfm.Application.UseCases.Motorcycles.GetMotorcycles;
 using Mfm.Domain.Entities;
 using Mfm.Domain.Events;
 using Mfm.Domain.Repositories;

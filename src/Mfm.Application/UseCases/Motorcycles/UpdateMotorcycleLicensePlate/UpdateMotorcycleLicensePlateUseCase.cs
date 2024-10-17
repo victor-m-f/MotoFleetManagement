@@ -1,8 +1,5 @@
-﻿using MassTransit;
-using Mfm.Application.UseCases.Base;
-using Mfm.Domain.Entities;
+﻿using Mfm.Application.UseCases.Base;
 using Mfm.Domain.Entities.ValueObjects;
-using Mfm.Domain.Events;
 using Mfm.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 

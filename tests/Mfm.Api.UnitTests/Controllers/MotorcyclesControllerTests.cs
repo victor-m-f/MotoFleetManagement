@@ -3,6 +3,8 @@ using MediatR;
 using Mfm.Api.Controllers.V1;
 using Mfm.Application.Dtos.Motorcycles;
 using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
+using Mfm.Application.UseCases.Motorcycles.GetMotorcycleById;
+using Mfm.Application.UseCases.Motorcycles.GetMotorcycles;
 using Mfm.Application.UseCases.Motorcycles.UpdateMotorcycleLicensePlate;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -87,5 +89,65 @@ public sealed class MotorcyclesControllerTests
         // Assert
         var objectResult = (result as ObjectResult)!;
         objectResult.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+    }
+
+    [Fact]
+    public async Task GetMotorcycles_ShouldReturnOk_WithListOfMotorcycles()
+    {
+        // Arrange
+        var motorcycles = new List<MotorcycleDto>
+        {
+            new() { Id = "1", LicensePlate = "ABC-1234", Year = 2024, Model = "Model X" },
+            new() { Id = "2", LicensePlate = "XYZ-5678", Year = 2023, Model = "Model Y" }
+        };
+
+        var output = new GetMotorcyclesOutput(motorcycles);
+
+        _mediator.Send(Arg.Any<GetMotorcyclesInput>(), Arg.Any<CancellationToken>())
+            .Returns(output);
+
+        var cancellationToken = new CancellationToken();
+
+        // Act
+        var result = await _controller.GetMotorcycles(null, cancellationToken);
+
+        // Assert
+        var okResult = result as ObjectResult;
+        okResult.Should().NotBeNull();
+        okResult!.StatusCode.Should().Be(StatusCodes.Status200OK);
+        okResult.Value.Should().BeEquivalentTo(motorcycles);
+
+        await _mediator.Received(1).Send(Arg.Any<GetMotorcyclesInput>(), cancellationToken);
+    }
+
+    [Fact]
+    public async Task GetMotorcycleById_ShouldReturnOk_WithMotorcycle()
+    {
+        // Arrange
+        var motorcycle = new MotorcycleDto
+        {
+            Id = "1",
+            LicensePlate = "ABC-1234",
+            Year = 2024,
+            Model = "Model X"
+        };
+
+        var output = new GetMotorcycleByIdOutput(motorcycle);
+
+        _mediator.Send(Arg.Any<GetMotorcycleByIdInput>(), Arg.Any<CancellationToken>())
+            .Returns(output);
+
+        var cancellationToken = new CancellationToken();
+
+        // Act
+        var result = await _controller.GetMotorcycleById("1", cancellationToken);
+
+        // Assert
+        var okResult = result as ObjectResult;
+        okResult.Should().NotBeNull();
+        okResult!.StatusCode.Should().Be(StatusCodes.Status200OK);
+        okResult.Value.Should().BeEquivalentTo(motorcycle);
+
+        await _mediator.Received(1).Send(Arg.Any<GetMotorcycleByIdInput>(), cancellationToken);
     }
 }

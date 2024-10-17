@@ -1,13 +1,9 @@
-﻿using Bogus;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Mfm.Api.IntegrationTests.Features.Base;
 using Mfm.Api.IntegrationTests.Support;
-using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
 using Mfm.Application.UseCases.Motorcycles.UpdateMotorcycleLicensePlate;
 using Mfm.Domain.Entities;
-using Mfm.Domain.Entities.Rules;
 using Mfm.Domain.Entities.ValueObjects;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -96,10 +92,11 @@ public class UpdateMotorcycleLicensePlateTests : FeatureTestsBase
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.NotFound);
 
         var responseContent = await response.Content.ReadAsStringAsync();
+        var expectedOutput = UpdateMotorcycleLicensePlateOutput.CreateNotFoundError(nonExistentId);
         responseContent.Should()
             .Contain(
             string.Format(
-                UpdateMotorcycleLicensePlateOutput.MotorcycleNotFoundErrorMessage, nonExistentId));
+                expectedOutput.Errors.First(), nonExistentId));
     }
 
     [Theory]

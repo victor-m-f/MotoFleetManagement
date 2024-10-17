@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Mfm.Application.Dtos.Motorcycles;
 using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
+using Mfm.Application.UseCases.Motorcycles.GetMotorcycleById;
 using Mfm.Application.UseCases.Motorcycles.GetMotorcycles;
 using Mfm.Application.UseCases.Motorcycles.UpdateMotorcycleLicensePlate;
 using Microsoft.AspNetCore.Mvc;
@@ -49,9 +50,11 @@ public sealed class MotorcyclesController : ApiControllerBase<MotorcyclesControl
     }
 
     [HttpGet("{id}", Name = nameof(GetMotorcycleById))]
-    public IActionResult GetMotorcycleById(string id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetMotorcycleById(string id, CancellationToken cancellationToken)
     {
-        return Ok();
+        var input = new GetMotorcycleByIdInput(id);
+        var output = await Mediator.Send(input, cancellationToken);
+        return Respond(output, output.Motorcycle);
     }
 
     [HttpDelete("{id}")]

@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
 using Mfm.Application.UseCases.Motorcycles.GetMotorcycles;
 using Mfm.Domain.Entities;
 using Mfm.Domain.Entities.ValueObjects;
