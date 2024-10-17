@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0-Solution Items", "0-Solut
 		.gitignore = .gitignore
 		.github\workflows\ci.yml = .github\workflows\ci.yml
 		coverlet.runsettings = coverlet.runsettings
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mfm.Domain", "src\Mfm.Domain\Mfm.Domain.csproj", "{AC8A13CF-0A9E-42CE-8C51-104D992B37E9}"

@@ -1,4 +1,6 @@
 # Desafio backend Mottu.
+[![codecov](https://codecov.io/github/victor-m-f/MotoFleetManagement/graph/badge.svg?token=H68AMXKSX5)](https://codecov.io/github/victor-m-f/MotoFleetManagement)
+
 Seja muito bem-vindo ao desafio backend da Mottu, obrigado pelo interesse em fazer parte do nosso time e ajudar a melhorar a vida de milhares de pessoas.
 
 ## Instruções
