@@ -27,6 +27,12 @@ jobs:
 
       - name: Report coverage
         uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            backend:
+              - 'src/**/*'
+            tests:
+              - 'tests/**/*'
 
       - name: Upload coverage results
         uses: actions/upload-artifact@v3
