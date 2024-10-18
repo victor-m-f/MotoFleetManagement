@@ -14,11 +14,6 @@ public sealed class Cnh : IEquatable<Cnh>
             throw new ValidationException();
         }
 
-        if (!IsValidCnhType(type))
-        {
-            throw new ValidationException();
-        }
-
         Number = number;
         Type = type;
     }
@@ -30,7 +25,4 @@ public sealed class Cnh : IEquatable<Cnh>
     public override int GetHashCode() => HashCode.Combine(Number, Type);
 
     public override string ToString() => $"{Type} - {Number}";
-
-    private static bool IsValidCnhType(CnhType type) =>
-        type == CnhType.A || type == CnhType.B || type == CnhType.AB;
 }
