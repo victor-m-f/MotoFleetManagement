@@ -1,5 +1,4 @@
-﻿using Bogus;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Mfm.Domain.Entities.ValueObjects;
 
 namespace Mfm.Domain.UnitTests.ValueObjects;

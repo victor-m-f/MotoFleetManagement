@@ -4,7 +4,6 @@ using Mfm.Application.Dtos.Common;
 using Mfm.Domain.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using System.Text.Json;

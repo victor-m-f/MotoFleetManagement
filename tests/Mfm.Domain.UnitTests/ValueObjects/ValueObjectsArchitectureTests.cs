@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Types;
 using Mfm.Domain.Entities.ValueObjects;
-using System.Linq;
 
 namespace Mfm.Domain.UnitTests.ValueObjects;
 public sealed class ValueObjectsArchitectureTests

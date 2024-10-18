@@ -3,7 +3,6 @@ using Bogus.Extensions.Brazil;
 using FluentAssertions;
 using Mfm.Domain.Entities;
 using Mfm.Domain.Entities.Enums;
-using Mfm.Domain.Exceptions;
 using Mfm.Domain.Entities.ValueObjects;
 
 namespace Mfm.Domain.UnitTests.Entities;
