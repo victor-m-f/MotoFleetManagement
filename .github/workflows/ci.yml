@@ -23,20 +23,20 @@ jobs:
 
       - name: Run all tests with merged coverage
         run: |
-          mkdir -p ./coverage
+          mkdir -p coverage
           dotnet test MotoFleetManagement.sln --no-build --configuration Release \
             /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura \
-            /p:CoverletOutput=./coverage/coverage.cobertura.xml
+            /p:CoverletOutput=coverage/
 
       - name: Debug Coverage Files
         run: |
-          echo "Here is the structure of ./coverage:"
-          ls -l ./coverage
+          echo "Here is the structure of coverage:"
+          ls -l coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: ./coverage/coverage.cobertura.xml
+          files: coverage/*.cobertura.xml
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: unittests
           name: codecov-coverage-report
