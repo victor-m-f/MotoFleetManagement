@@ -8,7 +8,7 @@
 					<ExcludeByFile>
 						**/Program.cs
 						**/Startup.cs
-						"**/*Migrations/*.cs"
+						**/*Migrations/*.cs
 					</ExcludeByFile>
 					<Exclude>
 						[*.Tests]*
