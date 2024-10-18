@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RunSettings>
-  <DataCollectionRunSettings>
-    <DataCollectors>
-      <DataCollector friendlyName="XPlat Code Coverage">
-        <Configuration>
-          <Format>opencover</Format>
-          <ExcludeByFile>**/Migrations/*</ExcludeByFile>
-          <Exclude>[*.Tests]*</Exclude>
-        </Configuration>
-      </DataCollector>
-    </DataCollectors>
-  </DataCollectionRunSettings>
+	<DataCollectionRunSettings>
+		<DataCollectors>
+			<DataCollector friendlyName="XPlat Code Coverage">
+				<Configuration>
+					<Format>opencover</Format>
+					<ExcludeByFile>
+						**/Program.cs
+						**/Startup.cs
+					</ExcludeByFile>
+					<Exclude>
+						[*.Tests]*
+						[*]Migrations.*
+						[*]Configuration.*
+						[*]TypeConfiguration
+					</Exclude>
+				</Configuration>
+			</DataCollector>
+		</DataCollectors>
+	</DataCollectionRunSettings>
 </RunSettings>
