@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace Mfm.Api.Configuration.ResponseStandardization;
 
-public class ErrorMiddleware
+public sealed class ErrorMiddleware
 {
     private const string LogResponseTemplate = "Response {@apiResponse} returned.";
     private const string DefaultInternalErrorMessage = "An unexpected error occurred. Please try again later or contact support if the problem persists.";
