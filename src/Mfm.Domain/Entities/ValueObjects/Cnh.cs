@@ -23,9 +23,6 @@ public sealed class Cnh : IEquatable<Cnh>
         Type = type;
     }
 
-    private static bool IsValidCnhType(CnhType type) =>
-        type == CnhType.A || type == CnhType.B || type == CnhType.AB;
-
     public override bool Equals(object? obj) => obj is Cnh other && Equals(other);
 
     public bool Equals(Cnh? other) => Number == other?.Number && Type == other.Type;
@@ -33,4 +30,7 @@ public sealed class Cnh : IEquatable<Cnh>
     public override int GetHashCode() => HashCode.Combine(Number, Type);
 
     public override string ToString() => $"{Type} - {Number}";
+
+    private static bool IsValidCnhType(CnhType type) =>
+        type == CnhType.A || type == CnhType.B || type == CnhType.AB;
 }

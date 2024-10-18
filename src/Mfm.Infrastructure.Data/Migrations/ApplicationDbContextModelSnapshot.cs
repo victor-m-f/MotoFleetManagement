@@ -93,7 +93,7 @@ namespace Mfm.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Mfm.Domain.Entities.DeliveryPerson", b =>
                 {
-                    b.OwnsOne("Mfm.Domain.Entities.ValueObjects.Cnh", "Cnh", b1 =>
+                    b.OwnsOne("Mfm.Domain.Entities.DeliveryPerson.Cnh#Mfm.Domain.Entities.ValueObjects.Cnh", "Cnh", b1 =>
                         {
                             b1.Property<string>("DeliveryPersonId")
                                 .HasColumnType("text");
@@ -114,7 +114,7 @@ namespace Mfm.Infrastructure.Data.Migrations
                             b1.HasIndex("Number")
                                 .IsUnique();
 
-                            b1.ToTable("DeliveryPerson");
+                            b1.ToTable("DeliveryPerson", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("DeliveryPersonId");
@@ -126,7 +126,7 @@ namespace Mfm.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Mfm.Domain.Entities.Motorcycle", b =>
                 {
-                    b.OwnsOne("Mfm.Domain.Entities.ValueObjects.LicensePlate", "LicensePlate", b1 =>
+                    b.OwnsOne("Mfm.Domain.Entities.Motorcycle.LicensePlate#Mfm.Domain.Entities.ValueObjects.LicensePlate", "LicensePlate", b1 =>
                         {
                             b1.Property<string>("MotorcycleId")
                                 .HasColumnType("text");
@@ -142,7 +142,7 @@ namespace Mfm.Infrastructure.Data.Migrations
                             b1.HasIndex("Value")
                                 .IsUnique();
 
-                            b1.ToTable("Motorcycle");
+                            b1.ToTable("Motorcycle", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("MotorcycleId");
@@ -154,7 +154,7 @@ namespace Mfm.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Mfm.Domain.Entities.Motorcycle2024", b =>
                 {
-                    b.OwnsOne("Mfm.Domain.Entities.ValueObjects.LicensePlate", "LicensePlate", b1 =>
+                    b.OwnsOne("Mfm.Domain.Entities.Motorcycle2024.LicensePlate#Mfm.Domain.Entities.ValueObjects.LicensePlate", "LicensePlate", b1 =>
                         {
                             b1.Property<string>("Motorcycle2024Id")
                                 .HasColumnType("text");
@@ -170,7 +170,7 @@ namespace Mfm.Infrastructure.Data.Migrations
                             b1.HasIndex("Value")
                                 .IsUnique();
 
-                            b1.ToTable("Motorcycle2024");
+                            b1.ToTable("Motorcycle2024", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("Motorcycle2024Id");

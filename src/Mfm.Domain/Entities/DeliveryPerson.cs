@@ -7,16 +7,16 @@ public sealed class DeliveryPerson
 {
     public string Id { get; } = string.Empty;
     public string Name { get; } = string.Empty;
-    public string Cnpj { get; } = string.Empty;
+    public Cnpj Cnpj { get; } = default!;
     public DateTime DateOfBirth { get; }
     public Cnh Cnh { get; } = default!;
     public string CnhImageUrl { get; private set; } = string.Empty;
 
-    public DeliveryPerson(string id, string name, string cnpj, DateTime dateOfBirth, Cnh cnh, string cnhImageUrl)
+    public DeliveryPerson(string id, string name, Cnpj cnpj, DateTime dateOfBirth, Cnh cnh, string cnhImageUrl)
     {
         Id = id;
         Name = name;
-        Cnpj = cnpj;
+        Cnpj = cnpj ?? throw new ValidationException();
         DateOfBirth = dateOfBirth;
         Cnh = cnh ?? throw new ValidationException();
         CnhImageUrl = cnhImageUrl;

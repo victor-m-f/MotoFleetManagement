@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Types;
 using Mfm.Domain.Entities.ValueObjects;
+using System.Linq;
 
 namespace Mfm.Domain.UnitTests.ValueObjects;
 public sealed class ValueObjectsArchitectureTests
@@ -8,7 +9,8 @@ public sealed class ValueObjectsArchitectureTests
     private static TypeSelector ValueObjectTypeSelector =>
         AllTypes
         .From(typeof(LicensePlate).Assembly)
-        .ThatAreInNamespace("Mfm.Domain.Entities.ValueObjects");
+        .ThatAreInNamespace("Mfm.Domain.Entities.ValueObjects")
+        .ThatSatisfy(x => !x.Name.Contains("AnonymousType") && !x.Name.Contains("<>"));
 
     [Fact]
     public void ValueObjects_ShouldBeSealed()

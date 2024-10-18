@@ -17,11 +17,15 @@ internal sealed class DeliveryPersonConfiguration : IEntityTypeConfiguration<Del
             .IsRequired()
             .HasMaxLength(DeliveryPersonRules.NameMaxLength);
 
-        _ = builder.Property(x => x.Cnpj)
-            .IsRequired()
-            .HasMaxLength(DeliveryPersonRules.CnpjMaxLength);
-        _ = builder.HasIndex(x => x.Cnpj)
-            .IsUnique();
+        _ = builder.OwnsOne(x => x.Cnpj, cnpj =>
+        {
+            cnpj.Property(y => y.Value)
+                .HasColumnName("Cnpj")
+                .IsRequired()
+                .HasMaxLength(DeliveryPersonRules.CnpjMaxLength);
+
+            cnpj.HasIndex(y => y.Value).IsUnique();
+        });
 
         _ = builder.Property(x => x.DateOfBirth)
             .IsRequired();
