@@ -11,7 +11,7 @@
 					</ExcludeByFile>
 					<Exclude>
 						[*.Tests]*
-						[*]Migrations.*
+						[*]Migrations
 						[*]Configuration.*
 						[*]TypeConfiguration
 					</Exclude>
