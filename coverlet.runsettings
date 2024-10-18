@@ -5,18 +5,7 @@
 			<DataCollector friendlyName="XPlat Code Coverage">
 				<Configuration>
 					<Format>opencover</Format>
-					<ExcludeByFile>
-						**/Program.cs
-						**/Startup.cs
-						**/*Migrations/*.cs
-					</ExcludeByFile>
-					<Exclude>
-						[*.Tests]*
-						[*].Migrations.*
-						[Migrations]*
-						[*]Configuration.*
-						[*]TypeConfiguration
-					</Exclude>
+					<ExcludeByFile>**/*Migrations/*.cs</ExcludeByFile>
 				</Configuration>
 			</DataCollector>
 		</DataCollectors>
