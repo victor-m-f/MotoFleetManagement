@@ -31,6 +31,12 @@ jobs:
           mkdir -p ./coverage
           find ./TestResults -name 'coverage.cobertura.xml' -exec cp {} ./coverage/ \;
 
+      - name: Combine Coverage Files
+        run: |
+          dotnet tool install --global coverlet.console || echo "Coverlet already installed"
+          coverlet ./coverage/ --merge-with ./coverage/coverage.cobertura.xml \
+            -o ./coverage/combined.cobertura.xml
+
       - name: Debug Coverage Files
         run: |
           echo "Here is the structure of ./coverage:"
