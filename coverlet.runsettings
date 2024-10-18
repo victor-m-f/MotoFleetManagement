@@ -8,6 +8,11 @@
 					<ExcludeByFile>
 						**/Program.cs
 						**/Startup.cs
+						**/ApplicationDbContextModelSnapshot.cs
+						**/20241011222935_CreateMotorcycle.cs
+						**/20241014195742_Motorcycle2024.cs
+						**/20241015021526_Motorcycle2024CreationDate.cs
+						**/20241017221516_DeliveryPerson.cs
 					</ExcludeByFile>
 					<Exclude>
 						[*.Tests]*
