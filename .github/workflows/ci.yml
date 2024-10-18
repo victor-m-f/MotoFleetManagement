@@ -21,21 +21,12 @@ jobs:
       - name: Build solution
         run: dotnet build MotoFleetManagement.sln --no-restore --configuration Release
 
-      - name: Run all tests with coverage
-        run: |
-          dotnet test MotoFleetManagement.sln --no-build --configuration Release \
-            --collect:"XPlat Code Coverage" --results-directory ./TestResults
-
-      - name: Move Coverage Files to Single Location
+      - name: Run all tests with merged coverage
         run: |
           mkdir -p ./coverage
-          find ./TestResults -name 'coverage.cobertura.xml' -exec cp {} ./coverage/ \;
-
-      - name: Combine Coverage Files
-        run: |
-          dotnet tool install --global coverlet.console || echo "Coverlet already installed"
-          coverlet ./coverage/ --merge-with ./coverage/coverage.cobertura.xml \
-            -o ./coverage/combined.cobertura.xml
+          dotnet test MotoFleetManagement.sln --no-build --configuration Release \
+            /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura \
+            /p:CoverletOutput=./coverage/coverage.cobertura.xml
 
       - name: Debug Coverage Files
         run: |
