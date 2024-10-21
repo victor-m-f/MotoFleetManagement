@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Mfm.Domain\Mfm.Domain.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="Mfm.Api.IntegrationTests" />
+	</ItemGroup>
+
 </Project>

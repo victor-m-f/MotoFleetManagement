@@ -2,11 +2,12 @@
 using Mfm.Domain.Services;
 using Mfm.Infrastructure.Data;
 using Mfm.Infrastructure.Messaging.Configuration;
-using Mfm.Infrastructure.Storage.Configuration;
+using Mfm.Infrastructure.Storage;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Testcontainers.Azurite;
 using Testcontainers.PostgreSql;
 using Testcontainers.RabbitMq;
@@ -24,18 +25,55 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         .Build();
 
     private readonly AzuriteContainer _azurite = new AzuriteBuilder()
-    .WithImage("mcr.microsoft.com/azure-storage/azurite")
-    .Build();
+        .WithImage("mcr.microsoft.com/azure-storage/azurite")
+        .Build();
+
+    private readonly ILoggerFactory _loggerFactory;
+    private readonly ILogger<ApiFactory> _logger;
+
+    private int _azuriteBlobPort;
+    private int _rabbitMqPort;
+
+    public ApiFactory()
+    {
+        _loggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole();
+            builder.SetMinimumLevel(LogLevel.Debug);
+        });
+
+        _logger = _loggerFactory.CreateLogger<ApiFactory>();
+    }
 
     public async Task InitializeAsync()
     {
-        var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(1));
+        _logger.LogInformation("Starting containers...");
 
-        await _postgres.StartAsync(cancellationTokenSource.Token);
-        await _rabbitMq.StartAsync(cancellationTokenSource.Token);
-        await _azurite.StartAsync(cancellationTokenSource.Token);
+        try
+        {
+            await _postgres.StartAsync();
+            _logger.LogInformation("PostgreSQL container started.");
 
-        await Task.Delay(2000);
+            await _rabbitMq.StartAsync();
+            _logger.LogInformation("RabbitMQ container started.");
+
+            await _azurite.StartAsync();
+            _logger.LogInformation("Azurite container started.");
+
+            _azuriteBlobPort = _azurite.GetMappedPublicPort(10000);
+            _logger.LogInformation($"Azurite Blob Port: {_azuriteBlobPort}");
+
+            _rabbitMqPort = _rabbitMq.GetMappedPublicPort(5672);
+            _logger.LogInformation($"RabbitMQ Port: {_rabbitMqPort}");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception during container startup");
+            throw;
+        }
+
+        _logger.LogInformation("Containers started. Delaying to allow services to initialize...");
+        await Task.Delay(5000);
     }
 
     public new async Task DisposeAsync()
@@ -97,18 +135,43 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
 
     private void ConfigureStorage(IServiceCollection services)
     {
-        var blobServiceDescriptor = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(BlobContainerClient));
-        if (blobServiceDescriptor != null)
+        try
         {
-            services.Remove(blobServiceDescriptor);
-        }
+            _logger.LogInformation("Configuring storage...");
 
-        var storageServiceDescriptor = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IStorageService));
-        if (storageServiceDescriptor != null)
+            var storageDescriptors = services.Where(
+                d => d.ServiceType == typeof(BlobContainerClient) ||
+                     d.ServiceType == typeof(IStorageService))
+                .ToList();
+
+            foreach (var descriptor in storageDescriptors)
+            {
+                services.Remove(descriptor);
+            }
+
+            var azuriteIpAddress = _azurite.IpAddress;
+
+            var azureStorageConnectionString = $"DefaultEndpointsProtocol=http;" +
+                $"AccountName=devstoreaccount1;" +
+                $"AccountKey=Eby8vdM02xNoGFGeGGb0GF2h3/WE3bN/29tBT//==;" +
+                $"BlobEndpoint=http://{azuriteIpAddress}:{_azuriteBlobPort}/devstoreaccount1;";
+
+            _logger.LogInformation($"Azurite Connection String: {azureStorageConnectionString}");
+
+            services.AddSingleton(x =>
+            {
+                var blobContainerClient = new BlobContainerClient(_azurite.GetConnectionString(), "upload-images");
+                _logger.LogInformation("BlobContainerClient created.");
+                return blobContainerClient;
+            });
+
+            services.AddScoped<IStorageService, AzureStorageService>();
+            _logger.LogInformation("Storage configured.");
+        }
+        catch (Exception ex)
         {
-            services.Remove(storageServiceDescriptor);
+            _logger.LogError(ex, "Exception during storage configuration");
+            throw;
         }
-
-        services.ConfigureStorage(_azurite.GetConnectionString());
     }
 }
