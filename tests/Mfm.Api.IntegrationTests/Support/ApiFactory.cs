@@ -1,6 +1,4 @@
-﻿using Azure.Storage.Blobs;
-using Mfm.Domain.Services;
-using Mfm.Infrastructure.Data;
+﻿using Mfm.Infrastructure.Data;
 using Mfm.Infrastructure.Messaging.Configuration;
 using Mfm.Infrastructure.Storage.Configuration;
 using Microsoft.AspNetCore.Hosting;
@@ -29,10 +27,17 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        await Task.WhenAll(
-            _postgres.StartAsync(),
-            _rabbitMq.StartAsync(),
-            _azurite.StartAsync());
+        Console.WriteLine("Starting PostgreSQL...");
+        await _postgres.StartAsync();
+        Console.WriteLine("PostgreSQL started.");
+
+        Console.WriteLine("Starting RabbitMQ...");
+        await _rabbitMq.StartAsync();
+        Console.WriteLine("RabbitMQ started.");
+
+        Console.WriteLine("Starting Azurite...");
+        await _azurite.StartAsync();
+        Console.WriteLine("Azurite started.");
     }
 
     public new async Task DisposeAsync()
