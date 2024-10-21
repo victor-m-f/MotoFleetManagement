@@ -23,6 +23,9 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
 
     private readonly AzuriteContainer _azurite = new AzuriteBuilder()
         .WithImage("mcr.microsoft.com/azure-storage/azurite")
+        .WithPortBinding(10000, true)
+        .WithPortBinding(10001, true)
+        .WithPortBinding(10002, true)
         .Build();
 
     public async Task InitializeAsync()
@@ -31,8 +34,7 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         await _rabbitMq.StartAsync();
         await _azurite.StartAsync();
 
-        await WaitUntilHealthyAsync(_rabbitMq.GetConnectionString());
-        await WaitUntilHealthyAsync(_azurite.GetConnectionString());
+        
     }
 
     public new async Task DisposeAsync()
@@ -95,24 +97,5 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
     private void ConfigureStorage(IServiceCollection services)
     {
         services.ConfigureStorage(_azurite.GetConnectionString());
-    }
-
-    private static async Task WaitUntilHealthyAsync(string url)
-    {
-        using var client = new HttpClient();
-        for (int i = 0; i < 10; i++)
-        {
-            try
-            {
-                var response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode) return;
-            }
-            catch
-            {
-            }
-
-            await Task.Delay(2000);
-        }
-        throw new Exception($"Failed to connect to service at {url}");
     }
 }
