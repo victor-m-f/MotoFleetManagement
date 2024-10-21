@@ -99,17 +99,8 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
 
     private void ConfigureStorage(IServiceCollection services)
     {
-        // var azureStorageConnectionString = $"DefaultEndpointsProtocol=http;" +
-        //$"AccountName=devstoreaccount1;" +
-        //$"AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==" +
-        //$"BlobEndpoint=http://127.0.0.1:{_azuriteBlobPort}/devstoreaccount1;";
-
-        Console.WriteLine($"Azurite Connection String: {_azurite.GetConnectionString()}");
-
-        var azureStorageConnectionString = $"DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;" +
-       $"BlobEndpoint=http://127.0.0.1:{_azuriteBlobPort}/devstoreaccount1;";
-
+        var azureStorageConnectionString = _azurite.GetConnectionString();
+        Console.WriteLine($"Azurite Connection String: {azureStorageConnectionString}");
         services.ConfigureStorage(azureStorageConnectionString);
     }
-
 }
