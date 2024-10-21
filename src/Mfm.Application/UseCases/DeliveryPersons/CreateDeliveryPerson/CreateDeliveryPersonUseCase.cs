@@ -51,10 +51,11 @@ internal sealed class CreateDeliveryPersonUseCase : UseCaseBase, ICreateDelivery
             return CreateDeliveryPersonOutput.CreateSameCnhNumberError();
         }
 
-        await _storageService.CreateBlobFileAsync(
-            $"{request.DeliveryPerson.Id}.png",
-            ConvertBase64ToBytes(request.DeliveryPerson.CnhImage),
-            cancellationToken);
+        var (fileName, fileBytes) = ConvertBase64ToBytes(
+            request.DeliveryPerson.CnhImage,
+            request.DeliveryPerson.Id);
+
+        await _storageService.CreateBlobFileAsync(fileName, fileBytes, cancellationToken);
 
         try
         {
@@ -66,7 +67,7 @@ internal sealed class CreateDeliveryPersonUseCase : UseCaseBase, ICreateDelivery
                 cnpj,
                 request.DeliveryPerson.DateOfBirth,
                 cnh,
-                $"{request.DeliveryPerson.Id}.png");
+                fileName);
 
             _deliveryPersonRepository.Add(deliveryPerson);
             await _deliveryPersonRepository.SaveChangesAsync(cancellationToken);
@@ -74,7 +75,7 @@ internal sealed class CreateDeliveryPersonUseCase : UseCaseBase, ICreateDelivery
         catch (Exception)
         {
             await _storageService.DeleteBlobFileAsync(
-                $"{request.DeliveryPerson.Id}.png",
+                fileName,
                 cancellationToken);
             throw;
         }
@@ -82,22 +83,30 @@ internal sealed class CreateDeliveryPersonUseCase : UseCaseBase, ICreateDelivery
         return new CreateDeliveryPersonOutput();
     }
 
-    private static byte[] ConvertBase64ToBytes(string base64String)
+    private static (string fileName, byte[] fileBytes) ConvertBase64ToBytes(string base64String, string id)
     {
         if (string.IsNullOrWhiteSpace(base64String))
         {
             throw new ValidationException("The image string cannot be empty.");
         }
 
-        var prefix = "data:image/png;base64,";
-        if (base64String.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+        var prefixMap = new Dictionary<string, string>
         {
-            base64String = base64String[prefix.Length..];
-        }
+            { "data:image/png;base64,", "png" },
+            { "data:image/bmp;base64,", "bmp" }
+        };
+
+        var prefix = prefixMap.Keys
+            .FirstOrDefault(p => base64String.StartsWith(p, StringComparison.OrdinalIgnoreCase));
+
+        var cleanBase64 = prefix == null ? base64String : base64String[prefix.Length..];
 
         try
         {
-            return Convert.FromBase64String(base64String);
+            var fileBytes = Convert.FromBase64String(cleanBase64);
+            var extension = prefix == null ? "png" : prefixMap[prefix];
+            var fileName = $"{id}.{extension}";
+            return (fileName, fileBytes);
         }
         catch (FormatException ex)
         {
