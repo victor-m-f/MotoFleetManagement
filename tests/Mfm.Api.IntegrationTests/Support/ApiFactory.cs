@@ -27,17 +27,12 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Console.WriteLine("Starting PostgreSQL...");
         await _postgres.StartAsync();
-        Console.WriteLine("PostgreSQL started.");
-
-        Console.WriteLine("Starting RabbitMQ...");
         await _rabbitMq.StartAsync();
-        Console.WriteLine("RabbitMQ started.");
-
-        Console.WriteLine("Starting Azurite...");
         await _azurite.StartAsync();
-        Console.WriteLine("Azurite started.");
+
+        await WaitUntilHealthyAsync(_rabbitMq.GetConnectionString());
+        await WaitUntilHealthyAsync($"http://{_azurite.Hostname}:{_azurite.GetMappedPublicPort(10000)}/devstoreaccount1");
     }
 
     public new async Task DisposeAsync()
@@ -100,5 +95,24 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
     private void ConfigureStorage(IServiceCollection services)
     {
         services.ConfigureStorage(_azurite.GetConnectionString());
+    }
+
+    private static async Task WaitUntilHealthyAsync(string url)
+    {
+        using var client = new HttpClient();
+        for (int i = 0; i < 10; i++)
+        {
+            try
+            {
+                var response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode) return;
+            }
+            catch
+            {
+            }
+
+            await Task.Delay(2000);
+        }
+        throw new Exception($"Failed to connect to service at {url}");
     }
 }
