@@ -54,22 +54,22 @@ public class CreateDeliveryPersonTests : FeatureTestsBase
     //    cnhImageUploaded.Should().NotBeNull();
     //}
 
-    //[Fact]
-    //public async Task ShouldReturnBadRequest_WhenCnpjIsDuplicated()
-    //{
-    //    // Arrange
-    //    var cnpj = "12345678000195";
-    //    var faker = new Faker();
-    //    var deliveryPerson = new
-    //    {
-    //        identificador = faker.Random.Guid().ToString(),
-    //        nome = faker.Person.FullName,
-    //        cnpj = cnpj,
-    //        data_nascimento = "1990-01-01T00:00:00Z",
-    //        numero_cnh = faker.Random.String2(DeliveryPersonRules.CnhNumberLength, "0123456789"),
-    //        tipo_cnh = CnhType.A.ToString(),
-    //        imagem_cnh = _validBase64,
-    //    };
+    [Fact]
+    public async Task ShouldReturnBadRequest_WhenCnpjIsDuplicated()
+    {
+        // Arrange
+        var cnpj = "12345678000195";
+        var faker = new Faker();
+        var deliveryPerson = new
+        {
+            identificador = faker.Random.Guid().ToString(),
+            nome = faker.Person.FullName,
+            cnpj,
+            data_nascimento = "1990-01-01T00:00:00Z",
+            numero_cnh = faker.Random.String2(DeliveryPersonRules.CnhNumberLength, "0123456789"),
+            tipo_cnh = CnhType.A.ToString(),
+            imagem_cnh = _validBase64,
+        };
 
     //    var content = new StringContent(JsonConvert.SerializeObject(deliveryPerson), Encoding.UTF8, "application/json");
 
