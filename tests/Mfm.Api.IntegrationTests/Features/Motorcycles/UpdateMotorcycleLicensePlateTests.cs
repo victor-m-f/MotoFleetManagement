@@ -7,7 +7,7 @@ using Mfm.Domain.Entities.ValueObjects;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace Mfm.Api.IntegrationTests.Features;
+namespace Mfm.Api.IntegrationTests.Features.Motorcycles;
 public class UpdateMotorcycleLicensePlateTests : FeatureTestsBase
 {
     public UpdateMotorcycleLicensePlateTests(ApiFactory apiFactory)

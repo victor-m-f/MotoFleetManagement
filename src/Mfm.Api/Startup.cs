@@ -3,6 +3,9 @@ using Mfm.Api.Configuration.ResponseStandardization;
 using Mfm.Application.Configuration;
 using Mfm.Infrastructure.Data.Configuration;
 using Mfm.Infrastructure.Messaging.Configuration;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using Mfm.Infrastructure.Storage.Configuration;
 
 namespace Mfm.Api;
 
@@ -17,7 +20,10 @@ public sealed class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        _ = services.AddControllers();
+        _ = services.AddControllers()
+            .AddJsonOptions(
+            options => options.JsonSerializerOptions.Converters.Add(
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)));
 
         _ = services.AddEndpointsApiExplorer();
         _ = services.AddSwaggerGen();
@@ -26,6 +32,7 @@ public sealed class Startup
         services.ConfigureApplication();
         services.ConfigureData(_configuration);
         services.ConfigureMessaging(_configuration.GetConnectionString("RabbitMq"));
+        services.ConfigureStorage(_configuration.GetConnectionString("AzureStorage"));
     }
 
     public void Configure(WebApplication app)

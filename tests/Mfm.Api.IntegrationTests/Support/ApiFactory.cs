@@ -1,9 +1,13 @@
-﻿using Mfm.Infrastructure.Data;
+﻿using Azure.Storage.Blobs;
+using Mfm.Domain.Services;
+using Mfm.Infrastructure.Data;
 using Mfm.Infrastructure.Messaging.Configuration;
+using Mfm.Infrastructure.Storage.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Testcontainers.Azurite;
 using Testcontainers.PostgreSql;
 using Testcontainers.RabbitMq;
 
@@ -19,17 +23,23 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         .WithImage("masstransit/rabbitmq")
         .Build();
 
+    private readonly AzuriteContainer _azurite = new AzuriteBuilder()
+        .WithImage("mcr.microsoft.com/azure-storage/azurite")
+        .Build();
+
     public async Task InitializeAsync()
     {
         await _postgres.StartAsync();
         await _rabbitMq.StartAsync();
+        await _azurite.StartAsync();
     }
 
     public new async Task DisposeAsync()
     {
         await Task.WhenAll(
             _postgres.StopAsync(),
-            _rabbitMq.StopAsync());
+            _rabbitMq.StopAsync(),
+            _azurite.StopAsync());
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -38,6 +48,7 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         {
             ConfigureDbContext(services);
             ConfigureRabbitMq(services);
+            ConfigureStorage(services);
         });
 
         builder.UseEnvironment("Development");
@@ -78,5 +89,14 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         }
 
         services.ConfigureMessaging(_rabbitMq.GetConnectionString());
+    }
+
+    private void ConfigureStorage(IServiceCollection services)
+    {
+        var connectionString = $"DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;" +
+                               $"AccountKey=Eby8vdM02f8=Axq/y4FI4THGj0=;" +
+                               $"BlobEndpoint=http://{_azurite.GetConnectionString()}:{_azurite.GetMappedPublicPort(10000)}/devstoreaccount1;";
+
+        services.ConfigureStorage(_azurite.GetConnectionString());
     }
 }

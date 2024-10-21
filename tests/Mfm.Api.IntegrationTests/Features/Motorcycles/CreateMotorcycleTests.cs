@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace Mfm.Api.IntegrationTests.Features;
+namespace Mfm.Api.IntegrationTests.Features.Motorcycles;
 public class CreateMotorcycleTests : FeatureTestsBase
 {
     public CreateMotorcycleTests(ApiFactory apiFactory)

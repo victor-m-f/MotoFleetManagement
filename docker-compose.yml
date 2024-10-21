@@ -41,5 +41,15 @@ services:
       - "80:80"
       - 5341:5341
 
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: azurite
+    restart: always
+    command: "azurite-blob --blobHost 0.0.0.0 --blobPort 10000"
+    ports:
+      - "10000:10000"
+    volumes:
+      - ./azurite:/data
+
 volumes:
   db-data:

@@ -5,7 +5,7 @@ using Mfm.Application.Dtos.Motorcycles;
 using Mfm.Domain.Entities;
 using Mfm.Domain.Entities.ValueObjects;
 
-namespace Mfm.Api.IntegrationTests.Features;
+namespace Mfm.Api.IntegrationTests.Features.Motorcycles;
 public class GetMotorcycleByIdTests : FeatureTestsBase
 {
     public GetMotorcycleByIdTests(ApiFactory apiFactory)

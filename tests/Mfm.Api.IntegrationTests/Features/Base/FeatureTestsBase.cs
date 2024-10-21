@@ -1,4 +1,5 @@
 ﻿using Mfm.Api.IntegrationTests.Support;
+using Mfm.Domain.Services;
 using Mfm.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ public abstract class FeatureTestsBase : IClassFixture<ApiFactory>, IDisposable
 
     protected HttpClient HttpClient { get; }
     protected ApplicationDbContext DbContext { get; }
+    protected IStorageService StorageService { get; }
 
     protected FeatureTestsBase(ApiFactory apiFactory)
     {
@@ -18,6 +20,7 @@ public abstract class FeatureTestsBase : IClassFixture<ApiFactory>, IDisposable
 
         HttpClient = apiFactory.CreateClient();
         DbContext = _scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        StorageService = _scope.ServiceProvider.GetRequiredService<IStorageService>();
     }
 
     public void Dispose()

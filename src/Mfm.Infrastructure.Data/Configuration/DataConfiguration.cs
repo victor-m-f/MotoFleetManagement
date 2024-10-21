@@ -17,6 +17,7 @@ public static class DataConfiguration
 
         services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
         services.AddScoped<IMotorcycle2024Repository, Motorcycle2024Repository>();
+        services.AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>();
     }
 
     public static void ApplyMigrations(this IApplicationBuilder app)

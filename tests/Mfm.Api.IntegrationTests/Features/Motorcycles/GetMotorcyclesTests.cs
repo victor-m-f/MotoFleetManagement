@@ -6,7 +6,7 @@ using Mfm.Domain.Entities;
 using Mfm.Domain.Entities.ValueObjects;
 using Newtonsoft.Json;
 
-namespace Mfm.Api.IntegrationTests.Features;
+namespace Mfm.Api.IntegrationTests.Features.Motorcycles;
 public class GetMotorcyclesTests : FeatureTestsBase
 {
     public GetMotorcyclesTests(ApiFactory apiFactory)
