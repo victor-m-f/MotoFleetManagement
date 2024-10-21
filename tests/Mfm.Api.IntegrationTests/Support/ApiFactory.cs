@@ -1,4 +1,6 @@
-﻿using Mfm.Infrastructure.Data;
+﻿using Azure.Storage.Blobs;
+using Mfm.Domain.Services;
+using Mfm.Infrastructure.Data;
 using Mfm.Infrastructure.Messaging.Configuration;
 using Mfm.Infrastructure.Storage.Configuration;
 using Microsoft.AspNetCore.Hosting;
@@ -22,10 +24,8 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         .Build();
 
     private readonly AzuriteContainer _azurite = new AzuriteBuilder()
-        .WithImage("mcr.microsoft.com/azure-storage/azurite")
-        .Build();
-
-    private int _azuriteBlobPort;
+    .WithImage("mcr.microsoft.com/azure-storage/azurite")
+    .Build();
 
     public async Task InitializeAsync()
     {
@@ -34,8 +34,6 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         await _postgres.StartAsync(cancellationTokenSource.Token);
         await _rabbitMq.StartAsync(cancellationTokenSource.Token);
         await _azurite.StartAsync(cancellationTokenSource.Token);
-
-        _azuriteBlobPort = _azurite.GetMappedPublicPort(10000);
 
         await Task.Delay(2000);
     }
@@ -99,8 +97,18 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
 
     private void ConfigureStorage(IServiceCollection services)
     {
-        var azureStorageConnectionString = _azurite.GetConnectionString();
-        Console.WriteLine($"Azurite Connection String: {azureStorageConnectionString}");
-        services.ConfigureStorage(azureStorageConnectionString);
+        var blobServiceDescriptor = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(BlobContainerClient));
+        if (blobServiceDescriptor != null)
+        {
+            services.Remove(blobServiceDescriptor);
+        }
+
+        var storageServiceDescriptor = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IStorageService));
+        if (storageServiceDescriptor != null)
+        {
+            services.Remove(storageServiceDescriptor);
+        }
+
+        services.ConfigureStorage(_azurite.GetConnectionString());
     }
 }
