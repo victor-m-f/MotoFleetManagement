@@ -29,9 +29,10 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        await _postgres.StartAsync();
-        await _rabbitMq.StartAsync();
-        await _azurite.StartAsync();
+        await Task.WhenAll(
+            _postgres.StartAsync(),
+            _rabbitMq.StartAsync(),
+            _azurite.StartAsync());
     }
 
     public new async Task DisposeAsync()
@@ -93,10 +94,6 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
 
     private void ConfigureStorage(IServiceCollection services)
     {
-        var connectionString = $"DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;" +
-                               $"AccountKey=Eby8vdM02f8=Axq/y4FI4THGj0=;" +
-                               $"BlobEndpoint=http://{_azurite.GetConnectionString()}:{_azurite.GetMappedPublicPort(10000)}/devstoreaccount1;";
-
         services.ConfigureStorage(_azurite.GetConnectionString());
     }
 }
