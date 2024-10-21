@@ -34,7 +34,7 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         await _rabbitMq.StartAsync();
         await _azurite.StartAsync();
 
-        
+        await Task.Delay(2000);
     }
 
     public new async Task DisposeAsync()
