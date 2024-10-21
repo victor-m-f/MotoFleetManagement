@@ -32,7 +32,7 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         await _azurite.StartAsync();
 
         await WaitUntilHealthyAsync(_rabbitMq.GetConnectionString());
-        await WaitUntilHealthyAsync($"http://{_azurite.Hostname}:{_azurite.GetMappedPublicPort(10000)}/devstoreaccount1");
+        await WaitUntilHealthyAsync(_azurite.GetConnectionString());
     }
 
     public new async Task DisposeAsync()
