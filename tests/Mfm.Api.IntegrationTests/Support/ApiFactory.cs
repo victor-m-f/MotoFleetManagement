@@ -23,16 +23,19 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
 
     private readonly AzuriteContainer _azurite = new AzuriteBuilder()
         .WithImage("mcr.microsoft.com/azure-storage/azurite")
-        .WithPortBinding(10000, true)
-        .WithPortBinding(10001, true)
-        .WithPortBinding(10002, true)
         .Build();
+
+    private int _azuriteBlobPort;
 
     public async Task InitializeAsync()
     {
-        await _postgres.StartAsync();
-        await _rabbitMq.StartAsync();
-        await _azurite.StartAsync();
+        var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(1));
+
+        await _postgres.StartAsync(cancellationTokenSource.Token);
+        await _rabbitMq.StartAsync(cancellationTokenSource.Token);
+        await _azurite.StartAsync(cancellationTokenSource.Token);
+
+        _azuriteBlobPort = _azurite.GetMappedPublicPort(10000);
 
         await Task.Delay(2000);
     }
@@ -96,6 +99,12 @@ public class ApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
 
     private void ConfigureStorage(IServiceCollection services)
     {
-        services.ConfigureStorage(_azurite.GetConnectionString());
+        var azureStorageConnectionString = $"DefaultEndpointsProtocol=http;" +
+            $"AccountName=devstoreaccount1;" +
+            $"AccountKey=Eby8vdM02xNo=" +
+            $"BlobEndpoint=http://127.0.0.1:{_azuriteBlobPort}/devstoreaccount1;";
+
+        services.ConfigureStorage(azureStorageConnectionString);
     }
+
 }
