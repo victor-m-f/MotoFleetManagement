@@ -3,6 +3,7 @@ using MediatR;
 using Mfm.Api.Controllers.V1;
 using Mfm.Application.Dtos.DeliveryPersons;
 using Mfm.Application.UseCases.DeliveryPersons.CreateDeliveryPerson;
+using Mfm.Application.UseCases.DeliveryPersons.UpdateDeliveryPersonCnhImage;
 using Mfm.Domain.Entities.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -62,6 +63,41 @@ public sealed class DeliveryPersonsControllerTests
             input.DeliveryPerson.CnhType == CnhType.A &&
             input.DeliveryPerson.Name == "John Doe" &&
             input.DeliveryPerson.CnhImage == cnhImageBase64),
+            cancellationToken);
+    }
+
+    [Fact]
+    public async Task UpdateDeliveryPersonCnhImage_ShouldReturnOk_WhenCnhIsUpdatedSuccessfully()
+    {
+        // Arrange
+        var deliveryPersonId = Guid.NewGuid().ToString();
+        var cnhImageBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wcAAwAB/Kh0fQAAAABJRU5ErkJggg==";
+        var updateCnhImage = new UpdateCnhImageDto
+        {
+            CnhImage = cnhImageBase64,
+        };
+
+        var input = new UpdateDeliveryPersonCnhImageInput(deliveryPersonId, updateCnhImage.CnhImage);
+        var output = new UpdateDeliveryPersonCnhImageOutput();
+
+        _mediator.Send(Arg.Any<UpdateDeliveryPersonCnhImageInput>(), Arg.Any<CancellationToken>())
+            .Returns(output);
+
+        var cancellationToken = new CancellationToken();
+
+        // Act
+        var result = await _controller.UpdateDeliveryPersonCnhImage(
+            deliveryPersonId,
+            updateCnhImage,
+            cancellationToken);
+
+        // Assert
+        var createdAtRouteResult = result as ObjectResult;
+        createdAtRouteResult.Should().NotBeNull();
+        createdAtRouteResult!.StatusCode.Should().Be(StatusCodes.Status201Created);
+
+        await _mediator.Received(1).Send(
+            Arg.Is<UpdateDeliveryPersonCnhImageInput>(x => x.Id == input.Id && x.CnhImage == input.CnhImage),
             cancellationToken);
     }
 }

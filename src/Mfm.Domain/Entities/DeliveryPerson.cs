@@ -24,14 +24,4 @@ public sealed class DeliveryPerson
 
     // This constructor is used by EF Core
     private DeliveryPerson() { }
-
-    public void UpdateCnhImage(string newImageUrl)
-    {
-        if (string.IsNullOrWhiteSpace(newImageUrl))
-        {
-            throw new ValidationException();
-        }
-
-        CnhImageUrl = newImageUrl;
-    }
 }

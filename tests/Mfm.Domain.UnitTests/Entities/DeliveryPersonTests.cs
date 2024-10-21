@@ -65,33 +65,6 @@ public sealed class DeliveryPersonTests
     }
 
     [Fact]
-    public void UpdateCnhImage_ShouldUpdateImageUrl_WhenValidUrlIsProvided()
-    {
-        // Arrange
-        var deliveryPerson = _deliveryPersonFaker.Generate();
-        var newImageUrl = new Faker().Internet.Url();
-
-        // Act
-        deliveryPerson.UpdateCnhImage(newImageUrl);
-
-        // Assert
-        deliveryPerson.CnhImageUrl.Should().Be(newImageUrl);
-    }
-
-    [Fact]
-    public void UpdateCnhImage_ShouldThrowValidationException_WhenImageUrlIsEmpty()
-    {
-        // Arrange
-        var deliveryPerson = _deliveryPersonFaker.Generate();
-
-        // Act
-        var action = () => deliveryPerson.UpdateCnhImage(string.Empty);
-
-        // Assert
-        action.Should().Throw<Exceptions.ValidationException>();
-    }
-
-    [Fact]
     public void Constructor_ShouldThrowValidationException_WhenCnpjIsInvalid()
     {
         // Arrange

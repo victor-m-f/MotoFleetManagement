@@ -31,8 +31,7 @@ internal sealed class AzureStorageService : IStorageService
         var blob = GetBlob(filename);
         if (blob.Exists(cancellationToken))
         {
-            _logger.LogError(BlobExistsMessage, filename);
-            throw new Exception("Blob already exists");
+            await DeleteBlobFileAsync(filename, cancellationToken);
         }
 
         try

@@ -33,4 +33,9 @@ internal sealed class DeliveryPersonRepository : RepositoryBase, IDeliveryPerson
             .AsNoTracking()
             .AnyAsync(m => m.Cnh.Number == cnhNumber, cancellationToken);
     }
+
+    public Task<DeliveryPerson?> GetByIdAsync(string deliveryPersonId, CancellationToken cancellationToken)
+    {
+        return Context.DeliveryPersons.FirstOrDefaultAsync(x => x.Id == deliveryPersonId, cancellationToken);
+    }
 }

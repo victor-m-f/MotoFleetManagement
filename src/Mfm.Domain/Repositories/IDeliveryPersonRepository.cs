@@ -10,4 +10,8 @@ public interface IDeliveryPersonRepository : IRepository
     public Task<bool> ExistsDeliveryPersonWithCnhNumberAsync(
         string cnhNumber,
         CancellationToken cancellationToken);
+
+    public Task<DeliveryPerson?> GetByIdAsync(
+        string deliveryPersonId,
+        CancellationToken cancellationToken);
 }

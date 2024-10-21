@@ -2,7 +2,6 @@
 using Mfm.Application.UseCases.Base;
 using Mfm.Domain.Entities;
 using Mfm.Domain.Entities.ValueObjects;
-using Mfm.Domain.Exceptions;
 using Mfm.Domain.Repositories;
 using Mfm.Domain.Services;
 using Microsoft.Extensions.Logging;
