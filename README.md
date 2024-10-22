@@ -79,7 +79,7 @@ O **Sistema de Locação de Motos e Entregadores** é uma aplicação desenvolvi
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Git](https://git-scm.com/downloads)
 
-### 🛠 Passo a Passo
+### 👣 Passo a Passo
 
 1. **Clone o Repositório:**
 
@@ -99,6 +99,57 @@ O **Sistema de Locação de Motos e Entregadores** é uma aplicação desenvolvi
 
 
 ### A aplicação estará disponível em **https://localhost:5001/swagger** e o acesso ao SEQ em **http://localhost**.
+
+## 🛠️ Possíveis Melhorias
+
+A aplicação está plenamente funcional e cumpre os requisitos estabelecidos. No entanto, existem oportunidades para aprimoramentos que podem aumentar a eficiência, facilitar a manutenção e melhorar a escalabilidade do sistema. A seguir, listo algumas sugestões de melhorias:
+
+#### 1. **Remover Dependência do MassTransit na Camada de Application**
+
+- **Objetivo:** Reduzir o acoplamento entre a camada de Application e o MassTransit.
+- **Melhoria Proposta:**
+  - Implementar interfaces ou abstrações que desacoplem a comunicação via mensageria da camada de Application.
+  - Facilitar a substituição ou atualização da ferramenta de mensageria no futuro sem impactar diretamente a lógica de negócio.
+
+#### 2. **Isolar Regras de Negócio no `MotorcycleCreatedConsumer`**
+
+- **Objetivo:** Melhorar a separação de responsabilidades e facilitar os testes.
+- **Melhoria Proposta:**
+  - Remover as regras de negócio diretamente do `MotorcycleCreatedConsumer`.
+  - Implementar uma camada de serviço ou domínio que gerencie as regras de negócio.
+  - Permitir que o consumidor apenas orquestre a comunicação de eventos, delegando a lógica para serviços dedicados.
+
+#### 3. **Utilizar Classes Tipadas para Respostas da API**
+
+- **Objetivo:** Garantir consistência e facilitar a manutenção das respostas da API.
+- **Melhoria Proposta:**
+  - Implementar Data Transfer Objects (DTOs) para todas as respostas da API.
+  - Centralizar a lógica de mapeamento das entidades para os DTOs em um controlador base ou em uma camada dedicada.
+  - Melhorar a clareza e a documentação das respostas da API, facilitando o entendimento por parte dos consumidores da API.
+
+#### 4. **Melhorar a Reutilização das Classes nos Testes**
+
+- **Objetivo:** Reduzir a duplicação de código e aumentar a eficiência dos testes.
+- **Melhoria Proposta:**
+  - Refatorar as classes de teste para reutilizar componentes comuns.
+  - Utilizar padrões de projeto como *Factory* ou *Builder* para criar objetos de teste.
+  - Centralizar a configuração de mocks e dependências compartilhadas, facilitando a manutenção e expansão dos testes.
+
+#### 5. **Projeção de Dados Direta para os DTOs no Repositório**
+
+- **Objetivo:** Aumentar a performance e facilitar a reutilização dos DTOs.
+- **Melhoria Proposta:**
+  - Modificar os repositórios para projetar os dados diretamente para os DTOs.
+  - Criar uma camada *Shared* que contenha os DTOs, acessível pelas camadas de Domain, Application e Data.
+  - Permitir que um possível frontend em C# reutilize os mesmos DTOs, promovendo consistência entre backend e frontend.
+
+#### 6. **Configuração de Arquivos `appsettings.json` Específicos para Testes**
+
+- **Objetivo:** Facilitar a configuração e execução dos testes automatizados.
+- **Melhoria Proposta:**
+  - Criar um arquivo `appsettings.Test.json` dedicado para os testes.
+  - Configurar strings de conexão e outras configurações específicas para o ambiente de testes.
+  - Assegurar que os testes utilizem este arquivo para isolar o ambiente de desenvolvimento da execução dos testes.
 
 # Descrição original do desafio
  
