@@ -17,11 +17,15 @@ internal sealed class GetMotorcycleByIdUseCase : UseCaseBase, IGetMotorcycleById
         _motorcycleRepository = motorcycleRepository;
     }
 
-    public async Task<GetMotorcycleByIdOutput> Handle(GetMotorcycleByIdInput request, CancellationToken cancellationToken)
+    public async Task<GetMotorcycleByIdOutput> Handle(
+        GetMotorcycleByIdInput request,
+        CancellationToken cancellationToken)
     {
         LogUseCaseExecutionStarted(request);
 
-        var motorcycle = await _motorcycleRepository.GetByIdAsync(request.Id, cancellationToken);
+        var motorcycle = await _motorcycleRepository.GetByIdAsync(
+            request.Id,
+            cancellationToken: cancellationToken);
 
         if (motorcycle == null)
         {

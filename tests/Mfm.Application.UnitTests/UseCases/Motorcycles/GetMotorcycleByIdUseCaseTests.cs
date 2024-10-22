@@ -16,7 +16,7 @@ public sealed class GetMotorcycleByIdUseCaseTests
         var motorcycle = new Motorcycle("1", new LicensePlate("ABC12345"), 2024, "ModelX");
 
         var repository = Substitute.For<IMotorcycleRepository>();
-        repository.GetByIdAsync(motorcycle.Id, Arg.Any<CancellationToken>())
+        repository.GetByIdAsync(motorcycle.Id, cancellationToken: Arg.Any<CancellationToken>())
                   .Returns(motorcycle);
 
         var useCase = new GetMotorcycleByIdUseCase(
@@ -32,7 +32,9 @@ public sealed class GetMotorcycleByIdUseCaseTests
             options =>
             options.ComparingByMembers<Motorcycle>()
             .WithTracing()
-            .Excluding(m => m.LicensePlate));
-        await repository.Received(1).GetByIdAsync(motorcycle.Id, Arg.Any<CancellationToken>());
+            .Excluding(m => m.LicensePlate)
+            .Excluding(m => m.Rentals));
+        await repository.Received(1)
+            .GetByIdAsync(motorcycle.Id, cancellationToken: Arg.Any<CancellationToken>());
     }
 }

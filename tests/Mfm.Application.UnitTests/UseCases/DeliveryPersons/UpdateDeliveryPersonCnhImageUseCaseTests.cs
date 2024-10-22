@@ -10,7 +10,7 @@ using NSubstitute;
 using System.Net;
 
 namespace Mfm.Application.UnitTests.UseCases.DeliveryPersons;
-public sealed class UpdateDeliveryPersonCnhImageTests
+public sealed class UpdateDeliveryPersonCnhImageUseCaseTests
 {
     [Fact]
     public async Task Handle_ShouldUpdateDeliveryPersonCnhImage_WhenCalledWithValidData()

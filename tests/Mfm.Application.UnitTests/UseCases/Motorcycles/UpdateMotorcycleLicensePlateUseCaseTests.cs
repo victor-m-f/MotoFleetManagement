@@ -21,7 +21,8 @@ public sealed class UpdateMotorcycleLicensePlateUseCaseTests
         var motorcycle = new Motorcycle("1", new LicensePlate(originalLicensePlate), 2023, "ModelX");
 
         var repository = Substitute.For<IMotorcycleRepository>();
-        repository.GetByIdAsync("1", Arg.Any<CancellationToken>()).Returns(motorcycle);
+        repository.GetByIdAsync("1", cancellationToken: Arg.Any<CancellationToken>())
+            .Returns(motorcycle);
 
         var useCase = new UpdateMotorcycleLicensePlateUseCase(
             Substitute.For<ILogger<UpdateMotorcycleLicensePlateUseCase>>(),
@@ -44,7 +45,9 @@ public sealed class UpdateMotorcycleLicensePlateUseCaseTests
     {
         // Arrange
         var repository = Substitute.For<IMotorcycleRepository>();
-        repository.GetByIdAsync("1", Arg.Any<CancellationToken>()).Returns((Motorcycle?)null);
+        repository.GetByIdAsync(
+            "1",
+            cancellationToken: Arg.Any<CancellationToken>()).Returns((Motorcycle?)null);
 
         var useCase = new UpdateMotorcycleLicensePlateUseCase(
             Substitute.For<ILogger<UpdateMotorcycleLicensePlateUseCase>>(),
@@ -68,7 +71,7 @@ public sealed class UpdateMotorcycleLicensePlateUseCaseTests
 
         var repository = Substitute.For<IMotorcycleRepository>();
 
-        repository.GetByIdAsync("1", Arg.Any<CancellationToken>())
+        repository.GetByIdAsync("1", cancellationToken: Arg.Any<CancellationToken>())
             .Returns(motorcycleToBeUpdated);
         repository.ExistsMotorcycleWithLicensePlateAsync(
             request.LicensePlate,

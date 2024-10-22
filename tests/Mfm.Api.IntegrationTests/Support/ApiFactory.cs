@@ -1,14 +1,10 @@
-﻿using Azure.Storage.Blobs;
-using Mfm.Domain.Services;
-using Mfm.Infrastructure.Data;
+﻿using Mfm.Infrastructure.Data;
 using Mfm.Infrastructure.Messaging.Configuration;
-using Mfm.Infrastructure.Storage;
 using Mfm.Infrastructure.Storage.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Testcontainers.Azurite;
 using Testcontainers.PostgreSql;
 using Testcontainers.RabbitMq;

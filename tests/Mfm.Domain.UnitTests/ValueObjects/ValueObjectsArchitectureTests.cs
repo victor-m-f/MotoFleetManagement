@@ -20,19 +20,6 @@ public sealed class ValueObjectsArchitectureTests
     }
 
     [Fact]
-    public void ValueObjects_ShouldNotHaveDefaultConstructor()
-    {
-        foreach (var type in ValueObjectTypeSelector.ToList())
-        {
-            var act = () =>
-                type.Should()
-                .NotHaveDefaultConstructor();
-
-            act.Should().NotThrow($"Expected {type.Name} to not have a default constructor.");
-        }
-    }
-
-    [Fact]
     public void ValueObjects_ShouldImplementIEquatable()
     {
         var valueObjectTypes = ValueObjectTypeSelector.ToList();

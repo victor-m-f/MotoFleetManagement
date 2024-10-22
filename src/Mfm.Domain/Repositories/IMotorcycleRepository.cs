@@ -12,5 +12,6 @@ public interface IMotorcycleRepository : IRepository
         CancellationToken cancellationToken);
     public Task<Motorcycle?> GetByIdAsync(
         string id,
-        CancellationToken cancellationToken);
+        bool includeRentals = false,
+        CancellationToken cancellationToken = default);
 }

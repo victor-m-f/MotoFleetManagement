@@ -11,6 +11,8 @@ public sealed class Motorcycle : AggregateRoot
     public string Model { get; } = string.Empty;
     public LicensePlate LicensePlate { get; private set; } = default!;
 
+    public ICollection<Rental> Rentals { get; } = [];
+
     public Motorcycle(string id, LicensePlate licensePlate, int year, string model)
     {
         if (year < MotorcycleRules.MinYear || year > DateTime.Now.Year)
@@ -30,5 +32,12 @@ public sealed class Motorcycle : AggregateRoot
     public void UpdateLicensePlate(LicensePlate newPlate)
     {
         LicensePlate = newPlate ?? throw new ValidationException();
+    }
+
+    public bool IsAvailable(DateTimeOffset startDate, DateTimeOffset endDate)
+    {
+        return !Rentals.Any(x =>
+            x.Period.StartDate < endDate &&
+            x.Period.EndDate > startDate);
     }
 }

@@ -10,8 +10,6 @@ namespace Mfm.Application.UseCases.DeliveryPersons.CreateDeliveryPerson;
 
 internal sealed class CreateDeliveryPersonUseCase : UseCaseBase, ICreateDeliveryPersonUseCase
 {
-    private const string CnhStorageContainer = "upload-images";
-
     private readonly IDeliveryPersonRepository _deliveryPersonRepository;
     private readonly IStorageService _storageService;
 

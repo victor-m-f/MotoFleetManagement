@@ -36,7 +36,8 @@ public sealed class GetMotorcyclesUseCaseTests
             options =>
             options.ComparingByMembers<Motorcycle>()
             .WithTracing() 
-            .Excluding(m => m.LicensePlate));
+            .Excluding(m => m.LicensePlate)
+            .Excluding(m => m.Rentals));
 
         await repository.Received(1).GetMotorcyclesAsync(null, Arg.Any<CancellationToken>());
     }

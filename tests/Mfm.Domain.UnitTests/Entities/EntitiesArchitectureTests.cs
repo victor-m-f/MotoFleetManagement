@@ -9,7 +9,8 @@ public sealed class EntitiesArchitectureTests
     private static TypeSelector EntitiesTypeSelector =>
         AllTypes
         .From(typeof(Motorcycle).Assembly)
-        .ThatAreInNamespace("Mfm.Domain.Entities");
+        .ThatAreInNamespace("Mfm.Domain.Entities")
+        .ThatSatisfy(x => !x.Name.Contains("AnonymousType") && !x.Name.Contains("<>"));
 
     [Fact]
     public void DomainEntities_ShouldBeSealed()

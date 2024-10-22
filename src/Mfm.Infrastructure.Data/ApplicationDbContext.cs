@@ -7,6 +7,7 @@ public class ApplicationDbContext : DbContext
     public virtual DbSet<Motorcycle> Motorcycles { get; set; } = default!;
     public virtual DbSet<Motorcycle2024> Motorcycles2024 { get; set; } = default!;
     public virtual DbSet<DeliveryPerson> DeliveryPersons { get; set; } = default!;
+    public virtual DbSet<Rental> Rentals { get; set; } = default!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)

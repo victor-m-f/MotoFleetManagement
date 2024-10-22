@@ -16,14 +16,18 @@ internal sealed class MotorcycleRepository : RepositoryBase, IMotorcycleReposito
         Context.Motorcycles.Add(motorcycle);
     }
 
-    public Task<bool> ExistsMotorcycleWithLicensePlateAsync(string licensePlate, CancellationToken cancellationToken)
+    public Task<bool> ExistsMotorcycleWithLicensePlateAsync(
+        string licensePlate,
+        CancellationToken cancellationToken)
     {
         return Context.Motorcycles
             .AsNoTracking()
             .AnyAsync(m => m.LicensePlate.Value == licensePlate, cancellationToken);
     }
 
-    public Task<List<Motorcycle>> GetMotorcyclesAsync(string? licensePlate, CancellationToken cancellationToken)
+    public Task<List<Motorcycle>> GetMotorcyclesAsync(
+        string? licensePlate,
+        CancellationToken cancellationToken)
     {
         var query = Context.Motorcycles.AsQueryable();
 
@@ -35,8 +39,18 @@ internal sealed class MotorcycleRepository : RepositoryBase, IMotorcycleReposito
         return query.ToListAsync(cancellationToken);
     }
 
-    public Task<Motorcycle?> GetByIdAsync(string id, CancellationToken cancellationToken)
+    public Task<Motorcycle?> GetByIdAsync(
+        string id,
+        bool includeRentals = false,
+        CancellationToken cancellationToken = default)
     {
-        return Context.Motorcycles.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        var query = Context.Motorcycles.AsQueryable();
+
+        if (includeRentals)
+        {
+            query = query.Include(m => m.Rentals);
+        }
+
+        return query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 }

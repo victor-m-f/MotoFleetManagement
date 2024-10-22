@@ -10,6 +10,7 @@ public static class DataConfiguration
 {
     public static void ConfigureData(this IServiceCollection services, IConfiguration configuration)
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         var connectionString = configuration.GetConnectionString("Database");
 
         services.AddDbContext<ApplicationDbContext>(
@@ -18,6 +19,7 @@ public static class DataConfiguration
         services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
         services.AddScoped<IMotorcycle2024Repository, Motorcycle2024Repository>();
         services.AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>();
+        services.AddScoped<IRentalRepository, RentalRepository>();
     }
 
     public static void ApplyMigrations(this IApplicationBuilder app)

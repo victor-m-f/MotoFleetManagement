@@ -23,7 +23,10 @@ internal sealed class UpdateMotorcycleLicensePlateUseCase : UseCaseBase, IUpdate
     {
         LogUseCaseExecutionStarted(request);
 
-        var motorcycle = await _motorcycleRepository.GetByIdAsync(request.Id, cancellationToken);
+        var motorcycle = await _motorcycleRepository.GetByIdAsync(
+            request.Id,
+            cancellationToken: cancellationToken);
+        
         if (motorcycle is null)
         {
             return UpdateMotorcycleLicensePlateOutput.CreateNotFoundError(request.Id);

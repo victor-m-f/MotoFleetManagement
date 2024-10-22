@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 
 namespace Mfm.Application.UnitTests.UseCases.DeliveryPersons;
-public sealed class CreateDeliveryPersonTests
+public sealed class CreateDeliveryPersonUseCaseTests
 {
     [Fact]
     public async Task Handle_ShouldAddDeliveryPerson_WhenCalledWithValidData()
