@@ -14,4 +14,5 @@ public interface IMotorcycleRepository : IRepository
         string id,
         bool includeRentals = false,
         CancellationToken cancellationToken = default);
+    public void Remove(Motorcycle motorcycle);
 }

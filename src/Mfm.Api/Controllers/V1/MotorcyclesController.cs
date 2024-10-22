@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Mfm.Application.Dtos.Motorcycles;
 using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
+using Mfm.Application.UseCases.Motorcycles.DeleteMotorcycle;
 using Mfm.Application.UseCases.Motorcycles.GetMotorcycleById;
 using Mfm.Application.UseCases.Motorcycles.GetMotorcycles;
 using Mfm.Application.UseCases.Motorcycles.UpdateMotorcycleLicensePlate;
@@ -58,8 +59,10 @@ public sealed class MotorcyclesController : ApiControllerBase<MotorcyclesControl
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeleteMotorcycle(string id)
+    public async Task<IActionResult> DeleteMotorcycle(string id, CancellationToken cancellationToken)
     {
-        return NoContent();
+        var input = new DeleteMotorcycleInput(id);
+        var output = await Mediator.Send(input, cancellationToken);
+        return Respond(output);
     }
 }

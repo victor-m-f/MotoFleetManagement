@@ -19,7 +19,7 @@ public class UpdateDeliveryPersonCnhImageTests : FeatureTestsBase
     }
 
     [Fact]
-    public async Task ShouldUpdateCnhImageAndReturnOk()
+    public async Task ShouldUpdateCnhImageAndReturnCreated()
     {
         // Arrange
         var faker = new Faker();

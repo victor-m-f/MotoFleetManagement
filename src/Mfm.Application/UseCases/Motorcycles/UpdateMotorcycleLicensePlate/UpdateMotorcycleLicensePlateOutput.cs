@@ -9,7 +9,7 @@ public sealed class UpdateMotorcycleLicensePlateOutput : OutputBase
     public const string SameLicensePlateErrorMessage = "The provided license plate already exists. Please use a unique license plate.";
 
     public UpdateMotorcycleLicensePlateOutput()
-        : base(HttpStatusCode.NoContent)
+        : base(HttpStatusCode.OK)
     {
     }
 

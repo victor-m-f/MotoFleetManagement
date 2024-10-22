@@ -35,7 +35,7 @@ public class UpdateMotorcycleLicensePlateTests : FeatureTestsBase
         var response = await HttpClient.PutAsync($"/motos/{motorcycle.Id}/placa", content);
 
         // Assert
-        response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+        response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
 
         DbContext.ChangeTracker.Clear();
 

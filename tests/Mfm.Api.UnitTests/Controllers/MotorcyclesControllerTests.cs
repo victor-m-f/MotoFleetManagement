@@ -3,6 +3,7 @@ using MediatR;
 using Mfm.Api.Controllers.V1;
 using Mfm.Application.Dtos.Motorcycles;
 using Mfm.Application.UseCases.Motorcycles.CreateMotorcycle;
+using Mfm.Application.UseCases.Motorcycles.DeleteMotorcycle;
 using Mfm.Application.UseCases.Motorcycles.GetMotorcycleById;
 using Mfm.Application.UseCases.Motorcycles.GetMotorcycles;
 using Mfm.Application.UseCases.Motorcycles.UpdateMotorcycleLicensePlate;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using static MassTransit.ValidationResultExtensions;
 
 namespace Mfm.Api.UnitTests.Controllers;
 public sealed class MotorcyclesControllerTests
@@ -87,8 +89,8 @@ public sealed class MotorcyclesControllerTests
             CancellationToken.None);
 
         // Assert
-        var objectResult = (result as ObjectResult)!;
-        objectResult.StatusCode.Should().Be(StatusCodes.Status204NoContent);
+        var objectResult = (result as OkResult)!;
+        objectResult.StatusCode.Should().Be(StatusCodes.Status200OK);
     }
 
     [Fact]
@@ -149,5 +151,29 @@ public sealed class MotorcyclesControllerTests
         okResult.Value.Should().BeEquivalentTo(motorcycle);
 
         await _mediator.Received(1).Send(Arg.Any<GetMotorcycleByIdInput>(), cancellationToken);
+    }
+
+    [Fact]
+    public async Task DeleteMotorcycle_ShouldReturnOk_WhenDeletionIsSuccessful()
+    {
+        // Arrange
+        var motorcycleId = "motorcycle-id";
+        var cancellationToken = new CancellationToken();
+
+        var output = new DeleteMotorcycleOutput();
+
+        _mediator.Send(Arg.Any<DeleteMotorcycleInput>(), Arg.Any<CancellationToken>())
+            .Returns(output);
+
+        // Act
+        var result = await _controller.DeleteMotorcycle(motorcycleId, cancellationToken);
+
+        // Assert
+        var okResult = result as OkResult;
+        okResult.Should().NotBeNull();
+        okResult!.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+        await _mediator.Received(1).Send(Arg.Is<DeleteMotorcycleInput>(input =>
+            input.Id == motorcycleId), cancellationToken);
     }
 }

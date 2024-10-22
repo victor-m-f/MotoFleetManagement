@@ -37,6 +37,11 @@ public abstract class ApiControllerBase<TApiController> : ControllerBase
             LogResponse(output.StatusCode, value);
         }
 
+        if (output.StatusCode == StatusCodes.Status200OK)
+        {
+            return value is null ? Ok() : Ok(value);
+        }
+
         return StatusCode(output.StatusCode, value);
     }
 

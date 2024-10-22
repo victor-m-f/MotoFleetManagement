@@ -53,4 +53,9 @@ internal sealed class MotorcycleRepository : RepositoryBase, IMotorcycleReposito
 
         return query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
+
+    public void Remove(Motorcycle motorcycle)
+    {
+        Context.Motorcycles.Remove(motorcycle);
+    }
 }
