@@ -1,8 +1,107 @@
-# Desafio backend Mottu.
+# Desafio
 [![codecov](https://codecov.io/github/victor-m-f/MotoFleetManagement/graph/badge.svg?token=H68AMXKSX5)](https://codecov.io/github/victor-m-f/MotoFleetManagement)
 
-Seja muito bem-vindo ao desafio backend da Mottu, obrigado pelo interesse em fazer parte do nosso time e ajudar a melhorar a vida de milhares de pessoas.
+## 📖 Descrição
 
+O **Sistema de Locação de Motos e Entregadores** é uma aplicação desenvolvida em .NET 8 com C#, projetada para gerenciar o aluguel de motocicletas para entregadores habilitados. A aplicação suporta múltiplos planos de locação, cálculo automático de custos totais com base nas regras de negócio, e garante que apenas entregadores habilitados na categoria A possam efetuar locações.
+
+## 🚀 Funcionalidades
+
+- **Gerenciamento de Motos:**
+  - Cadastro, consulta, modificação e remoção de motos.
+  - Validação de dados únicos como placa da moto.
+  - Geração e publicação de eventos via mensageria ao cadastrar uma moto.
+  - Consumidor para notificar e armazenar informações quando o ano da moto for "2024".
+
+- **Gerenciamento de Entregadores:**
+  - Cadastro de entregadores com validação de dados únicos como CNPJ e número da CNH.
+  - Atualização da foto da CNH com suporte a formatos PNG e BMP, armazenando as imagens em serviço de storage.
+
+- **Gerenciamento de Locação:**
+  - Aluguel de motos por diferentes planos (7, 15, 30, 45 e 50 dias) com custos diários específicos.
+  - Cálculo automático de custo total, incluindo multas para devoluções antecipadas e cobranças extras para devoluções tardias.
+  - Restrições para que apenas entregadores habilitados na categoria A possam efetuar locações.
+
+- **Integração com Mensageria e Storage:**
+  - Uso de **MassTransit** com **RabbitMQ** para comunicação de eventos.
+  - Armazenamento de imagens de CNH usando **Azurite** (emulador do Azure Blob Storage).
+
+- **Monitoramento e Logs:**
+  - Logs estruturados e visualização em tempo real usando **SEQ**.
+
+- **Testes:**
+  - Testes unitários e de integração utilizando **xUnit**, **NSubstitute**, **FluentAssertions**, **Bogus** e **TestContainers**.
+
+## 🛠 Tecnologias Utilizadas
+
+- **Backend:**
+  - [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)
+  - [C#](https://docs.microsoft.com/pt-br/dotnet/csharp/)
+  - [ASP.NET Core](https://docs.microsoft.com/pt-br/aspnet/core/?view=aspnetcore-8.0)
+  - [Entity Framework Core](https://docs.microsoft.com/pt-br/ef/core/)
+  - [MediatR](https://github.com/jbogard/MediatR)
+  - [MassTransit](https://masstransit-project.com/)
+  
+- **Banco de Dados:**
+  - [PostgreSQL](https://www.postgresql.org/)
+  
+- **Mensageria:**
+  - [RabbitMQ](https://www.rabbitmq.com/)
+  
+- **Storage:**
+  - [Azurite](https://github.com/Azure/Azurite) (emulador do Azure Blob Storage)
+  
+- **Testes:**
+  - [xUnit](https://xunit.net/)
+  - [NSubstitute](https://nsubstitute.github.io/)
+  - [FluentAssertions](https://fluentassertions.com/)
+  - [Bogus](https://github.com/bchavez/Bogus)
+  - [TestContainers](https://github.com/testcontainers/testcontainers-dotnet)
+  
+- **Outras Ferramentas:**
+  - [Docker](https://www.docker.com/)
+  - [Docker Compose](https://docs.docker.com/compose/)
+  - [SEQ](https://datalust.co/seq) para monitoramento de logs.
+  - [Swagger](https://swagger.io/) para documentação da API.
+
+## 🏗 Estrutura do Projeto
+
+- **Domain:** Contém as entidades e regras de negócio.
+- **Application:** Contém os casos de uso e lógica de aplicação.
+- **Infrastructure:** Implementação da infraestrutura, incluindo Data, Messaging e Storage.
+- **API:** Camada de apresentação, expondo as APIs REST utilizando MediatR para comunicação com a camada de Application.
+
+## 📦 Instalação
+
+### 📋 Pré-requisitos
+
+- [Docker](https://www.docker.com/get-started) e [Docker Compose](https://docs.docker.com/compose/install/)
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [Git](https://git-scm.com/downloads)
+
+### 🛠 Passo a Passo
+
+1. **Clone o Repositório:**
+
+   ```bash
+   git clone https://github.com/victor-m-f/MotoFleetManagement.git
+   cd MotoFleetManagement
+   
+### 🖥 Via Visual Studio          
+1. Abrir o Projeto no Visual Studio:
+    - Abra a solução (.sln) no Visual Studio.
+
+2. Selecionar Docker Compose:
+    - No topo da IDE, selecione o projeto docker-compose como o projeto de inicialização.
+
+3. Executar a Aplicação:
+    - Pressione F5 ou clique no botão de "Play" para iniciar a aplicação usando o Docker Compose. Isso iniciará todos os serviços definidos e a aplicação estará disponível nos URLs configurados.
+
+
+### A aplicação estará disponível em **https://localhost:5001/swagger** e o acesso ao SEQ em **http://localhost**.
+
+# Descrição original do desafio
+ 
 ## Instruções
 - O desafio é válido para diversos níveis, portanto não se preocupe se não conseguir resolver por completo.
 - A aplicação só será avaliada se estiver rodando, se necessário crie um passo a passo para isso.
