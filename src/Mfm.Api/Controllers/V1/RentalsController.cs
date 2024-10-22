@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Mfm.Application.Dtos.Rentals;
 using Mfm.Application.UseCases.Rentals.CreateRental;
+using Mfm.Application.UseCases.Rentals.GetRentalById;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mfm.Api.Controllers.V1;
@@ -22,5 +23,13 @@ public sealed class RentalsController : ApiControllerBase<RentalsController>
         var output = await Mediator.Send(input, cancellationToken);
 
         return Respond(output);
+    }
+
+    [HttpGet("{id}", Name = nameof(GetRentalById))]
+    public async Task<IActionResult> GetRentalById(string id, CancellationToken cancellationToken)
+    {
+        var input = new GetRentalByIdInput(id);
+        var output = await Mediator.Send(input, cancellationToken);
+        return Respond(output, output.Rental);
     }
 }

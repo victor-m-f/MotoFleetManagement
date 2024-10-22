@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using static MassTransit.ValidationResultExtensions;
 
 namespace Mfm.Api.UnitTests.Controllers;
 public sealed class MotorcyclesControllerTests

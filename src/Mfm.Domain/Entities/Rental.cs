@@ -11,6 +11,7 @@ public sealed class Rental
     public RentalPlanType PlanType { get; }
     public RentalPeriod Period { get; private set; } = default!;
     public decimal TotalCost { get; private set; }
+    public DateTimeOffset? ReturnDate { get; set; }
 
     public Motorcycle? Motorcycle { get; set; }
     public DeliveryPerson? DeliveryPerson { get; set; }

@@ -14,9 +14,6 @@ public sealed class RentalPlan
         DailyRate = dailyRate;
     }
 
-    // This constructor is used by EF Core
-    private RentalPlan() { }
-
     public static RentalPlan SevenDays => new(RentalPlanType.SevenDays, 7, 30m);
     public static RentalPlan FifteenDays => new(RentalPlanType.FifteenDays, 15, 28m);
     public static RentalPlan ThirtyDays => new(RentalPlanType.ThirtyDays, 30, 22m);
