@@ -98,7 +98,7 @@ public sealed class RentalTests
         rental.CompleteRental(actualEndDate);
 
         // Assert
-        rental.Period.EndDate.Should().Be(actualEndDate);
+        rental.ReturnDate.Should().Be(actualEndDate);
         rental.TotalCost.Should().Be(rental.CalculateTotalCost());
     }
 

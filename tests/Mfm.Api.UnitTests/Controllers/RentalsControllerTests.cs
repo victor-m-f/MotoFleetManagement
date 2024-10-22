@@ -2,6 +2,8 @@
 using MediatR;
 using Mfm.Api.Controllers.V1;
 using Mfm.Application.Dtos.Rentals;
+using Mfm.Application.Helpers;
+using Mfm.Application.UseCases.Rentals.CompleteRental;
 using Mfm.Application.UseCases.Rentals.CreateRental;
 using Mfm.Application.UseCases.Rentals.GetRentalById;
 using Microsoft.AspNetCore.Http;
@@ -99,5 +101,50 @@ public sealed class RentalsControllerTests
         okResult.Value.Should().BeEquivalentTo(rentalDto);
 
         await _mediator.Received(1).Send(Arg.Any<GetRentalByIdInput>(), cancellationToken);
+    }
+
+    [Fact]
+    public async Task CompleteRental_ShouldReturnOk_WithUpdatedRental()
+    {
+        // Arrange
+        var rentalId = "rental-id";
+        var returnDate = DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
+
+        var completeRentalDto = new CompleteRentalDto
+        {
+            ReturnDate = returnDate
+        };
+
+        var rentalDto = new RentalDto
+        {
+            Id = rentalId,
+            DailyRate = 30.0m,
+            DeliveryPersonId = "deliveryperson-id",
+            MotorcycleId = "motorcycle-id",
+            StartDate = DateTimeOffset.Now.AddDays(-7),
+            EndDate = DateTimeOffset.Now,
+            ExpectedEndDate = DateTimeOffset.Now,
+            ReturnDate = DateTimeOffset.Parse(returnDate),
+        };
+
+        var output = new CompleteRentalOutput();
+
+        _mediator.Send(Arg.Any<CompleteRentalInput>(), Arg.Any<CancellationToken>())
+            .Returns(output);
+
+        var cancellationToken = new CancellationToken();
+
+        // Act
+        var result = await _controller.CompleteRental(rentalId, completeRentalDto, cancellationToken);
+
+        // Assert
+        var okResult = result as ObjectResult;
+        okResult.Should().NotBeNull();
+        okResult!.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+        await _mediator.Received(1).Send(Arg.Is<CompleteRentalInput>(input =>
+            input.RentalId == rentalId &&
+            input.ReturnDateString.ToDateTime() == DateTimeOffset.Parse(returnDate)),
+            cancellationToken);
     }
 }

@@ -8,7 +8,7 @@ using Mfm.Domain.Services;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 
-namespace Mfm.Application.UnitTests.UseCases.Motorcycles;
+namespace Mfm.Application.UnitTests.UseCases.Rentals;
 public sealed class GetRentalByIdUseCaseTests
 {
     [Fact]

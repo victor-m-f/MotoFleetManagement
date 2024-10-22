@@ -1,5 +1,6 @@
 ﻿using Mfm.Domain.Entities.Enums;
 using Mfm.Domain.Entities.ValueObjects;
+using Mfm.Domain.Exceptions;
 using Mfm.Domain.Services;
 
 namespace Mfm.Domain.Entities;
@@ -36,9 +37,15 @@ public sealed class Rental
     // This constructor is used by EF Core
     private Rental() { }
 
-    public void CompleteRental(DateTime actualEndDate)
+    public void CompleteRental(DateTimeOffset actualEndDate)
     {
-        Period.SetActualEndDate(actualEndDate);
+
+        if (actualEndDate < Period.StartDate)
+        {
+            throw new ValidationException("Actual end date cannot be before start date.");
+        }
+
+        ReturnDate = actualEndDate;
         TotalCost = CalculateTotalCost();
     }
 
@@ -47,8 +54,9 @@ public sealed class Rental
         var plan = RentalPlan.GetPlan(PlanType);
         var dailyRate = plan.DailyRate;
         var expectedDuration = plan.DurationInDays;
+        var finalDate = ReturnDate ?? Period.EndDate.Date;
 
-        var actualDuration = (Period.EndDate.Date - Period.StartDate).Days;
+        var actualDuration = (finalDate - Period.StartDate).Days;
 
         decimal totalCost;
 

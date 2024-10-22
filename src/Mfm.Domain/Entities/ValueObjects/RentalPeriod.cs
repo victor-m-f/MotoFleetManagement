@@ -38,16 +38,6 @@ public sealed class RentalPeriod : IEquatable<RentalPeriod>
     // This constructor is used by EF Core
     private RentalPeriod() { }
 
-    public void SetActualEndDate(DateTime actualEndDate)
-    {
-        if (actualEndDate < StartDate)
-        {
-            throw new ValidationException("Actual end date cannot be before start date.");
-        }
-
-        EndDate = actualEndDate;
-    }
-
     public bool Equals(RentalPeriod? other)
     {
         if (other is null)

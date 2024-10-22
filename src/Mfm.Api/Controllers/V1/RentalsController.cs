@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Mfm.Application.Dtos.Rentals;
+using Mfm.Application.Helpers;
+using Mfm.Application.UseCases.Rentals.CompleteRental;
 using Mfm.Application.UseCases.Rentals.CreateRental;
 using Mfm.Application.UseCases.Rentals.GetRentalById;
 using Microsoft.AspNetCore.Mvc;
@@ -31,5 +33,16 @@ public sealed class RentalsController : ApiControllerBase<RentalsController>
         var input = new GetRentalByIdInput(id);
         var output = await Mediator.Send(input, cancellationToken);
         return Respond(output, output.Rental);
+    }
+
+    [HttpPut("{id}/devolucao")]
+    public async Task<IActionResult> CompleteRental(
+        string id,
+        [FromBody] CompleteRentalDto dto,
+        CancellationToken cancellationToken)
+    {
+        var input = new CompleteRentalInput(id, dto.ReturnDate);
+        var output = await Mediator.Send(input, cancellationToken);
+        return Respond(output, CompleteRentalOutput.SuccessMessage);
     }
 }

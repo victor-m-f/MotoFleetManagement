@@ -28,6 +28,6 @@ public static class DateTimeExtensions
             return dateTime;
         }
 
-        throw new FormatException($"Invalid date format: {dateString}");
+        return null;
     }
 }

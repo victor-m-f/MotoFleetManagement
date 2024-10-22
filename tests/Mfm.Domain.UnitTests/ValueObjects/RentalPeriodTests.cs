@@ -82,43 +82,6 @@ public sealed class RentalPeriodTests
     }
 
     [Fact]
-    public void SetActualEndDate_ShouldUpdateEndDate_WhenValidDate()
-    {
-        // Arrange
-        var creationDate = _timeProvider.GetLocalNow();
-        var expectedStartDate = creationDate.Date.AddDays(1);
-        var expectedEndDate = expectedStartDate.AddDays(7);
-        var endDate = expectedEndDate;
-        var rentalPeriod = new RentalPeriod(expectedStartDate, endDate, expectedEndDate, _timeProvider);
-        var newEndDate = endDate.AddDays(1);
-
-        // Act
-        rentalPeriod.SetActualEndDate(newEndDate);
-
-        // Assert
-        rentalPeriod.EndDate.Should().Be(newEndDate);
-    }
-
-    [Fact]
-    public void SetActualEndDate_ShouldThrowValidationException_WhenActualEndDateIsBeforeStartDate()
-    {
-        // Arrange
-        var creationDate = _timeProvider.GetLocalNow();
-        var expectedStartDate = creationDate.Date.AddDays(1);
-        var expectedEndDate = expectedStartDate.AddDays(7);
-        var endDate = expectedEndDate;
-        var rentalPeriod = new RentalPeriod(expectedStartDate, endDate, expectedEndDate, _timeProvider);
-        var invalidEndDate = expectedStartDate.AddDays(-1);
-
-        // Act
-        var action = () => rentalPeriod.SetActualEndDate(invalidEndDate);
-
-        // Assert
-        action.Should().Throw<ValidationException>()
-            .WithMessage("Actual end date cannot be before start date.");
-    }
-
-    [Fact]
     public void Equals_ShouldReturnTrue_WhenRentalPeriodsAreEqual()
     {
         // Arrange
